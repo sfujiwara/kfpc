@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "kfpc"
+version = "0.1.0"
+description = "Components for Kubeflow Pipelines and Vertex Pipelines"
+license = "MIT"
+authors = ["sfujiwara <shuhei.fujiwara@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = ">= 3.7, < 3.9"
+kfp = "^1.8.12"
+
+[tool.poetry.dev-dependencies]
+black = "^21.5b1"
+jupyter = "^1.0.0"
+google-cloud-aiplatform = "^1.15.0"
+invoke = "^1.7.1"
+google-cloud-pipeline-components = "^1.0.13"
+
+[tool.black]
+line-length = 110
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"

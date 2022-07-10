@@ -1,0 +1,51 @@
+name: query
+
+inputs:
+  - name: job_project
+    type: String
+
+  - name: query
+    type: String
+
+  - name: location
+    type: String
+
+  - name: destination_project
+    type: String
+
+  - name: destination_dataset
+    type: String
+
+  - name: destination_table
+    type: String
+
+outputs:
+  - name: destination_table
+    type: google.BQTable
+
+  - name: gcp_resources
+    type: String
+
+implementation:
+  container:
+    image: "gcr.io/sfujiwara/kfpc/bigquery"
+    command:
+      - inv
+      - query
+    args:
+      - --job-project
+      - inputValue: job_project
+      - --query
+      - inputValue: query
+      - --location
+      - inputValue: location
+      - --destination-project
+      - inputValue: destination_project
+      - --destination-dataset
+      - inputValue: destination_dataset
+      - --destination-table
+      - inputValue: destination_table
+      - --gcp-resources
+      - outputPath: gcp_resources
+      - --executor-input
+      - executorInput: null
