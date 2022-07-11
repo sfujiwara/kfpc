@@ -1,5 +1,6 @@
 import json
 import pathlib
+import os
 import time
 import invoke
 from google_cloud_pipeline_components.types.artifact_types import BQTable
@@ -9,6 +10,45 @@ from google.protobuf.json_format import MessageToJson
 import requests
 import google.auth
 import google.auth.transport.requests
+
+
+def insert_bigquery_job(payload: dict, project: str):
+    creds, _ = google.auth.default()
+    creds.refresh(google.auth.transport.requests.Request())
+
+    headers = {
+        "Content-type": "application/json",
+        "Authorization": f"Bearer {creds.token}",
+        "User-Agent": "google-cloud-pipeline-components"
+    }
+
+    job = requests.post(
+        url=f'https://www.googleapis.com/bigquery/v2/projects/{project}/jobs',
+        data=json.dumps(payload),
+        headers=headers
+    ).json()
+
+    # Wait for the job finishing.
+    while True:
+
+        if job["status"]["state"] == "DONE":
+            break
+
+        if not creds.valid:
+            creds.refresh(google.auth.transport.requests.Request())
+
+        job = requests.get(
+            url=job["selfLink"],
+            headers={
+                "Content-type": "application/json",
+                "Authorization": f"Bearer {creds.token}",
+            }
+        ).json()
+
+        time.sleep(3)
+
+    print(job)
+    return job
 
 
 @invoke.task
@@ -60,15 +100,6 @@ def query(
         Automatically passed by Kubeflow Pipelines.
     gcp_resources:
     """
-    creds, _ = google.auth.default()
-    creds.refresh(google.auth.transport.requests.Request())
-
-    headers = {
-        "Content-type": "application/json",
-        "Authorization": f"Bearer {creds.token}",
-        "User-Agent": "google-cloud-pipeline-components"
-    }
-
     payload = {
         "configuration": {
             "query": {
@@ -90,30 +121,7 @@ def query(
         }
     }
 
-    job = requests.post(
-        url=f'https://www.googleapis.com/bigquery/v2/projects/{job_project}/jobs',
-        data=json.dumps(payload),
-        headers=headers
-    ).json()
-
-    # Wait for the job finishing.
-    while True:
-
-        if job["status"]["state"] == "DONE":
-            break
-
-        if not creds.valid:
-            creds.refresh(google.auth.transport.requests.Request())
-
-        job = requests.get(
-            url=job["selfLink"],
-            headers={
-                "Content-type": "application/json",
-                "Authorization": f"Bearer {creds.token}",
-            }
-        ).json()
-
-        time.sleep(3)
+    job = insert_bigquery_job(payload=payload, project=job_project)
 
     # Write BQTable artifact.
     bq_table_artifact = BQTable(
@@ -139,8 +147,13 @@ def query(
 @invoke.task
 def extract_artifact(
     c,
+    job_project,
     table_uri,
     output_uri,
+    output_file_name,
+    location="US",
+    labels="{}",
+    destination_format="NEWLINE_DELIMITED_JSON",
     executor_input='{"outputs": {"outputFile": "tmp/executor_input.json"}}',
     gcp_resources="tmp/gcp_resources.json",
 ):
@@ -160,4 +173,38 @@ def extract_artifact(
     dataset_id = table_uri.split("/")[-3]
     table_id = table_uri.split("/")[-1]
 
-    raise NotImplementedError
+    payload = {
+        "configuration": {
+            "extract": {
+                "destinationUris": [os.path.join(output_uri, output_file_name)],
+                # "printHeader": True,
+                # "fieldDelimiter": ",",
+                "destinationFormat": destination_format,
+                "compression": "NONE",
+                # "useAvroLogicalTypes": True,
+                "sourceTable": {
+                    "projectId": project_id,
+                    "datasetId": dataset_id,
+                    "tableId": table_id,
+                },
+            },
+            "labels": json.loads(labels),
+        },
+        "jobReference": {
+            "projectId": job_project,
+            "location": location,
+        }
+    }
+
+    job = insert_bigquery_job(payload=payload, project=job_project)
+
+    # Write GCP resources.
+    bq_resources = GcpResources()
+    b = bq_resources.resources.add()
+    b.resource_type = "BigQueryJob"
+    b.resource_uri = job["selfLink"]
+
+    pathlib.Path(gcp_resources).parent.mkdir(parents=True, exist_ok=True)
+
+    with open(gcp_resources, "w") as f:
+        f.write(MessageToJson(bq_resources))
