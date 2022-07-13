@@ -52,8 +52,7 @@ class Query:
         destination_table:
             Table ID of the destination table.
         """
-        self.op = load_component_from_text(yaml.dump(self.dict))
-        self.op(
+        self.op = load_component_from_text(yaml.dump(self.dict))(
             query=query,
             job_project=job_project,
             location=location,
@@ -86,6 +85,25 @@ class ExtractTableArtifact:
 
     def __init__(self, name: str):
         self.name = name
+        self.op = None
+        self.dict = yaml.load(
+            pkgutil.get_data(package="kfpc", resource=os.path.join("specifications", "extract_artifact.yaml")),
+            yaml.Loader,
+        )
+        self.dict["name"] = self.name
 
-    def task(self, table_uri):
-        raise NotImplementedError
+    def task(
+        self,
+        job_project: Union[PipelineParam, str],
+        source_table: PipelineParam,
+        location: Union[PipelineParam, str],
+        destination_format: Union[PipelineParam, str],
+        output_file_name: Union[PipelineParam, str],
+    ):
+        self.op = load_component_from_text(yaml.dump(self.dict))(
+            job_project=job_project,
+            source_table=source_table,
+            location=location,
+            destination_format=destination_format,
+            output_file_name=output_file_name,
+        )

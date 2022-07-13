@@ -1,0 +1,48 @@
+name: query
+
+inputs:
+  - name: job_project
+    type: String
+
+  - name: destination_format
+    type: String
+
+  - name: location
+    type: String
+
+  - name: source_table
+    type: google.BQTable
+
+  - name: output_file_name
+    type: String
+
+outputs:
+  - name: output
+    type: Artifact
+
+  - name: gcp_resources
+    type: String
+
+implementation:
+  container:
+    image: "gcr.io/sfujiwara/kfpc/bigquery"
+    command:
+      - inv
+      - extract-artifact
+    args:
+      - --job-project
+      - inputValue: job_project
+      - --location
+      - inputValue: location
+      - --table-uri
+      - inputUri: source_table
+      - --destination-format
+      - inputValue: destination_format
+      - --output-uri
+      - outputUri: output
+      - --output-file-name
+      - inputValue: output_file_name
+      - --gcp-resources
+      - outputPath: gcp_resources
+      - --executor-input
+      - executorInput: null

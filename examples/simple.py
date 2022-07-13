@@ -9,13 +9,21 @@ PROJECT = ""
 
 @kfp.dsl.pipeline(name="simple")
 def pipeline_fn():
-    kfpc.bigquery.Query(name="query").task(
+    query_task1 = kfpc.bigquery.Query(name="select-1").task(
         query="SELECT 1",
         job_project=PROJECT,
         location="US",
         destination_project=PROJECT,
         destination_dataset="sandbox",
         destination_table="tmp",
+    )
+
+    extract_task = kfpc.bigquery.ExtractTableArtifact(name="extract").task(
+        job_project=PROJECT,
+        source_table=query_task1.destination_table,
+        destination_format="NEWLINE_DELIMITED_JSON",
+        location="US",
+        output_file_name="sample.jsonl",
     )
 
 
