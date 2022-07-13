@@ -1,6 +1,8 @@
 import os
 import pkgutil
+from typing import List
 from typing import Union
+from typing import Optional
 import yaml
 from kfp.components import load_component_from_text
 from kfp.dsl import PipelineParam
@@ -33,6 +35,7 @@ class Query:
         destination_project: Union[PipelineParam, str],
         destination_dataset: Union[PipelineParam, str],
         destination_table: Union[PipelineParam, str],
+        dependent_table_artifacts: Optional[List[PipelineParam]]=None,
     ):
         """
         Generate a Kubeflow Pipelines task.
@@ -52,14 +55,31 @@ class Query:
         destination_table:
             Table ID of the destination table.
         """
-        self.op = load_component_from_text(yaml.dump(self.dict))(
-            query=query,
-            job_project=job_project,
-            location=location,
-            destination_project=destination_project,
-            destination_dataset=destination_dataset,
-            destination_table=destination_table,
-        )
+        if dependent_table_artifacts:
+            d = {}
+            for i, t in enumerate(dependent_table_artifacts):
+                key = f"table{i+1}"
+                self.dict["inputs"].append({"name": key, "type": "google.BQTable"})
+                d[key] = dependent_table_artifacts[i]
+
+            self.op = load_component_from_text(yaml.dump(self.dict))(
+                query=query,
+                job_project=job_project,
+                location=location,
+                destination_project=destination_project,
+                destination_dataset=destination_dataset,
+                destination_table=destination_table,
+                **d,
+            )
+        else:
+            self.op = load_component_from_text(yaml.dump(self.dict))(
+                query=query,
+                job_project=job_project,
+                location=location,
+                destination_project=destination_project,
+                destination_dataset=destination_dataset,
+                destination_table=destination_table,
+            )
 
         return self
 

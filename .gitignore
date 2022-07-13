@@ -5,4 +5,4 @@ venv
 *.pyc
 
 tmp
-pipline.json
+pipeline.json

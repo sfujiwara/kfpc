@@ -4,7 +4,7 @@ from google.cloud import aiplatform
 import kfpc
 
 
-PROJECT = ""
+PROJECT = "sfujiwara"
 
 
 @kfp.dsl.pipeline(name="simple")
@@ -18,9 +18,28 @@ def pipeline_fn():
         destination_table="tmp",
     )
 
+    query_task2 = kfpc.bigquery.Query(name="select-2").task(
+        query="SELECT 1",
+        job_project=PROJECT,
+        location="US",
+        destination_project=PROJECT,
+        destination_dataset="sandbox",
+        destination_table="tmp",
+    )
+
+    query_task3 = kfpc.bigquery.Query(name="select-3").task(
+        query="SELECT 1",
+        job_project=PROJECT,
+        location="US",
+        destination_project=PROJECT,
+        destination_dataset="sandbox",
+        destination_table="tmp",
+        dependent_table_artifacts=[query_task1.destination_table, query_task2.destination_table]
+    )
+
     extract_task = kfpc.bigquery.ExtractTableArtifact(name="extract").task(
         job_project=PROJECT,
-        source_table=query_task1.destination_table,
+        source_table=query_task3.destination_table,
         destination_format="NEWLINE_DELIMITED_JSON",
         location="US",
         output_file_name="sample.jsonl",
