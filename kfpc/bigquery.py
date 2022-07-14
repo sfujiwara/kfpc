@@ -35,7 +35,7 @@ class Query:
         destination_project: Union[PipelineParam, str],
         destination_dataset: Union[PipelineParam, str],
         destination_table: Union[PipelineParam, str],
-        dependent_table_artifacts: Optional[List[PipelineParam]]=None,
+        depend_on: Optional[List[PipelineParam]]=None,
     ):
         """
         Generate a Kubeflow Pipelines task.
@@ -54,13 +54,15 @@ class Query:
             BigQuery dataset ID of the destination table.
         destination_table:
             Table ID of the destination table.
+        depend_on:
+            Required table artifacts to execute this task.
         """
-        if dependent_table_artifacts:
+        if depend_on:
             d = {}
-            for i, t in enumerate(dependent_table_artifacts):
+            for i, t in enumerate(depend_on):
                 key = f"table{i+1}"
                 self.dict["inputs"].append({"name": key, "type": "google.BQTable"})
-                d[key] = dependent_table_artifacts[i]
+                d[key] = depend_on[i]
 
             self.op = load_component_from_text(yaml.dump(self.dict))(
                 query=query,
@@ -94,36 +96,45 @@ class Query:
 
 class Extract:
 
-    def __init__(self, name: str):
-        self.name = name
-
-    def task(self):
-        raise NotImplementedError
-
-
-class ExtractTableArtifact:
-
-    def __init__(self, name: str):
+    def __init__(self, name: str = "extract"):
         self.name = name
         self.op = None
-        self.dict = yaml.load(
-            pkgutil.get_data(package="kfpc", resource=os.path.join("specifications", "extract_artifact.yaml")),
-            yaml.Loader,
-        )
-        self.dict["name"] = self.name
+        self.dict = None
 
     def task(
         self,
         job_project: Union[PipelineParam, str],
-        source_table: PipelineParam,
         location: Union[PipelineParam, str],
         destination_format: Union[PipelineParam, str],
         output_file_name: Union[PipelineParam, str],
+        source_table_artifact: Optional[PipelineParam] = None,
+        source_project_id: Optional[str] = None,
+        source_dataset_id: Optional[str] = None,
+        source_table_id: Optional[str] = None,
     ):
-        self.op = load_component_from_text(yaml.dump(self.dict))(
-            job_project=job_project,
-            source_table=source_table,
-            location=location,
-            destination_format=destination_format,
-            output_file_name=output_file_name,
-        )
+        if source_table_artifact:
+            self.dict = yaml.load(
+                pkgutil.get_data(package="kfpc", resource=os.path.join("specifications", "extract_artifact.yaml")),
+                yaml.Loader,
+            )
+            self.dict["name"] = self.name
+            self.op = load_component_from_text(yaml.dump(self.dict))(
+                job_project=job_project,
+                source_table=source_table,
+                location=location,
+                destination_format=destination_format,
+                output_file_name=output_file_name,
+            )
+        elif source_project_id and source_dataset_id and source_table_id:
+            self.dict = yaml.load(
+                pkgutil.get_data(package="kfpc", resource=os.path.join("specifications", "extract.yaml")),
+                yaml.Loader,
+            )
+            self.dict["name"] = self.name
+            self.op = load_component_from_text(yaml.dump(self.dict))(
+                job_project=job_project,
+                source_table=source_table,
+                location=location,
+                destination_format=destination_format,
+                output_file_name=output_file_name,
+            )
