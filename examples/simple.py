@@ -1,10 +1,15 @@
+import argparse
 import kfp
 from kfp.v2 import compiler
 from google.cloud import aiplatform
 import kfpc
 
 
-PROJECT = "sfujiwara"
+parser = argparse.ArgumentParser()
+parser.add_argument("--project", type=str, required=True)
+args = parser.parse_args()
+
+PROJECT = args.project
 
 
 @kfp.dsl.pipeline(name="simple")
@@ -15,7 +20,7 @@ def pipeline_fn():
         location="US",
         destination_project=PROJECT,
         destination_dataset="sandbox",
-        destination_table="tmp",
+        destination_table="select1",
     )
 
     query_select2_task = kfpc.bigquery.Query(name="select-2").task(
@@ -24,7 +29,7 @@ def pipeline_fn():
         location="US",
         destination_project=PROJECT,
         destination_dataset="sandbox",
-        destination_table="tmp",
+        destination_table="select2",
     )
 
     query_select3_task = kfpc.bigquery.Query(name="select-3").task(
@@ -33,7 +38,7 @@ def pipeline_fn():
         location="US",
         destination_project=PROJECT,
         destination_dataset="sandbox",
-        destination_table="tmp",
+        destination_table="select3",
         depend_on=[query_select1_task.destination_table, query_select2_task.destination_table]
     )
 
@@ -46,7 +51,7 @@ def pipeline_fn():
     )
 
 
-if __name__ == "__main__":
+def main():
     compiler.Compiler().compile(pipeline_func=pipeline_fn, package_path="pipeline.json")
     job = aiplatform.PipelineJob(
         project=PROJECT,
@@ -57,3 +62,7 @@ if __name__ == "__main__":
         pipeline_root=f"gs://{PROJECT}-vertex-ai/pipeline-root",
     )
     job.submit()
+
+
+if __name__ == "__main__":
+    main()
