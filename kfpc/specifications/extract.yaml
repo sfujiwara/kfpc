@@ -10,8 +10,14 @@ inputs:
   - name: location
     type: String
 
-  - name: source_table_artifact
-    type: google.BQTable
+  - name: source_project_id
+    type: String
+
+  - name: source_dataset_id
+    type: String
+
+  - name: source_table_id
+    type: String
 
   - name: output_file_name
     type: String

@@ -35,7 +35,7 @@ class Query:
         destination_project: Union[PipelineParam, str],
         destination_dataset: Union[PipelineParam, str],
         destination_table: Union[PipelineParam, str],
-        depend_on: Optional[List[PipelineParam]]=None,
+        depend_on: Optional[List[PipelineParam]] = None,
     ):
         """
         Generate a Kubeflow Pipelines task.
@@ -55,7 +55,7 @@ class Query:
         destination_table:
             Table ID of the destination table.
         depend_on:
-            Required table artifacts to execute this task.
+            Required table artifacts to execute this query.
         """
         if depend_on:
             d = {}
@@ -120,7 +120,7 @@ class Extract:
             self.dict["name"] = self.name
             self.op = load_component_from_text(yaml.dump(self.dict))(
                 job_project=job_project,
-                source_table=source_table,
+                source_table_artifact=source_table_artifact,
                 location=location,
                 destination_format=destination_format,
                 output_file_name=output_file_name,
@@ -133,7 +133,9 @@ class Extract:
             self.dict["name"] = self.name
             self.op = load_component_from_text(yaml.dump(self.dict))(
                 job_project=job_project,
-                source_table=source_table,
+                source_project_id=source_project_id,
+                source_dataset_id=source_dataset_id,
+                source_table_id=source_table_id,
                 location=location,
                 destination_format=destination_format,
                 output_file_name=output_file_name,

@@ -51,6 +51,41 @@ def insert_bigquery_job(payload: dict, project: str):
     return job
 
 
+def compose_extract_payload(
+    job_project,
+    source_project_id,
+    source_dataset_id,
+    source_table_id,
+    destination_uris,
+    location,
+    labels,
+    destination_format,
+):
+    payload = {
+        "configuration": {
+            "extract": {
+                "destinationUris": destination_uris,
+                # "printHeader": True,
+                # "fieldDelimiter": ",",
+                "destinationFormat": destination_format,
+                "compression": "NONE",
+                # "useAvroLogicalTypes": True,
+                "sourceTable": {
+                    "projectId": source_project_id,
+                    "datasetId": source_dataset_id,
+                    "tableId": source_table_id,
+                },
+            },
+            "labels": labels,
+        },
+        "jobReference": {
+            "projectId": job_project,
+            "location": location,
+        }
+    }
+    return payload
+
+
 @invoke.task
 def query(
     c,
@@ -145,10 +180,13 @@ def query(
 
 
 @invoke.task
-def extract_artifact(
+def extract(
     c,
     job_project,
     table_uri,
+    source_project_id,
+    source_dataset_id,
+    source_table_id,
     output_uri,
     output_file_name,
     location="US",
@@ -169,42 +207,45 @@ def extract_artifact(
     gcp_resources:
         Path to which Google Cloud Platform resource information is saved.
     """
-    project_id = table_uri.split("/")[-5]
-    dataset_id = table_uri.split("/")[-3]
-    table_id = table_uri.split("/")[-1]
-
-    payload = {
-        "configuration": {
-            "extract": {
-                "destinationUris": [os.path.join(output_uri, output_file_name)],
-                # "printHeader": True,
-                # "fieldDelimiter": ",",
-                "destinationFormat": destination_format,
-                "compression": "NONE",
-                # "useAvroLogicalTypes": True,
-                "sourceTable": {
-                    "projectId": project_id,
-                    "datasetId": dataset_id,
-                    "tableId": table_id,
-                },
-            },
-            "labels": json.loads(labels),
-        },
-        "jobReference": {
-            "projectId": job_project,
-            "location": location,
-        }
-    }
-
+    payload = compose_extract_payload(
+        job_project=job_project,
+        source_project_id=source_project_id,
+        source_dataset_id=source_dataset_id,
+        source_table_id=source_table_id,
+        destination_uris=[os.path.join(output_uri, output_file_name)],
+        labels=json.loads(labels),
+        location=location,
+        destination_format=destination_format,
+    )
     job = insert_bigquery_job(payload=payload, project=job_project)
 
-    # Write GCP resources.
-    bq_resources = GcpResources()
-    b = bq_resources.resources.add()
-    b.resource_type = "BigQueryJob"
-    b.resource_uri = job["selfLink"]
 
-    pathlib.Path(gcp_resources).parent.mkdir(parents=True, exist_ok=True)
+@invoke.task
+def extract_artifact(
+    c,
+    job_project,
+    table_uri,
+    output_uri,
+    output_file_name,
+    location="US",
+    labels="{}",
+    destination_format="NEWLINE_DELIMITED_JSON",
+    executor_input='{"outputs": {"outputFile": "tmp/executor_input.json"}}',
+    gcp_resources="tmp/gcp_resources.json",
+):
+    source_project_id = table_uri.split("/")[-5]
+    source_dataset_id = table_uri.split("/")[-3]
+    source_table_id = table_uri.split("/")[-1]
 
-    with open(gcp_resources, "w") as f:
-        f.write(MessageToJson(bq_resources))
+    payload = compose_extract_payload(
+        job_project=job_project,
+        source_project_id=source_project_id,
+        source_dataset_id=source_dataset_id,
+        source_table_id=source_table_id,
+        destination_uris=[os.path.join(output_uri, output_file_name)],
+        labels=json.loads(labels),
+        location=location,
+        destination_format=destination_format,
+    )
+    job = insert_bigquery_job(payload=payload, project=job_project)
+
