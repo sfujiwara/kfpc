@@ -5,6 +5,12 @@
 
 Components for Kubeflow Pipelines and Vertex Pipelines.
 
+## Installation
+
+```shell
+pip install git+https://github.com/sfujiwara/kfpc
+```
+
 ## Basic Usage
 
 ### Components for BigQuery
