@@ -147,6 +147,7 @@ def query(
                 "createDisposition": create_disposition,
                 "writeDisposition": write_disposition,
                 "queryParameters": json.loads(query_params),
+                "useLegacySql": False,
             },
             "labels": json.loads(labels),
         },
