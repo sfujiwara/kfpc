@@ -145,4 +145,4 @@ class Extract:
 
     @property
     def output_files(self) -> PipelineParam:
-        return self.op.outputs["output_file"]
+        return self.op.outputs["output_files"]
