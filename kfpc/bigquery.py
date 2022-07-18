@@ -140,3 +140,9 @@ class Extract:
                 destination_format=destination_format,
                 output_file_name=output_file_name,
             )
+
+        return self
+
+    @property
+    def output_files(self) -> PipelineParam:
+        return self.op.outputs["output_file"]
