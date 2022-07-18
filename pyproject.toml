@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "kfpc"
-version = "0.1.0"
+version = "0.1.1"
 description = "Components for Kubeflow Pipelines and Vertex Pipelines"
 license = "MIT"
 authors = ["sfujiwara <shuhei.fujiwara@gmail.com>"]
@@ -15,6 +15,7 @@ jupyter = "^1.0.0"
 google-cloud-aiplatform = "^1.15.0"
 invoke = "^1.7.1"
 google-cloud-pipeline-components = "^1.0.13"
+toml = "^0.10.2"
 
 [tool.black]
 line-length = 110

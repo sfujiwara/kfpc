@@ -3,6 +3,7 @@
 .venv
 venv
 *.pyc
+*.egg-info
 
 tmp
 pipeline.json
