@@ -2,23 +2,17 @@
 
 ## Release
 
-1. Create release branch
-   - Increment version numbers
+1. Create release branch `release/${VERSION}`
+   - Increment version numbers in [`pyproject.toml`](pyproject.toml)
    - Build and push Docker image
-2. Merge release branch
+2. Merge release branch to `main` branch
 3. Create release tag and release note via release-it
-
-### Increment version numbers
-
-- `setup.py`
-- `pyproject.toml`
-- `docker-compose.yaml`
 
 ### Build and push Docker image
 
 ```shell
-docker-compose build
-docker-compose push
+inv docker.build
+inv docker.push
 ```
 
 ### Generate git tag and release note via release-it

@@ -19,13 +19,13 @@ def insert_bigquery_job(payload: dict, project: str):
     headers = {
         "Content-type": "application/json",
         "Authorization": f"Bearer {creds.token}",
-        "User-Agent": "google-cloud-pipeline-components"
+        "User-Agent": "google-cloud-pipeline-components",
     }
 
     job = requests.post(
-        url=f'https://www.googleapis.com/bigquery/v2/projects/{project}/jobs',
+        url=f"https://www.googleapis.com/bigquery/v2/projects/{project}/jobs",
         data=json.dumps(payload),
-        headers=headers
+        headers=headers,
     ).json()
 
     # Wait for the job finishing.
@@ -42,7 +42,7 @@ def insert_bigquery_job(payload: dict, project: str):
             headers={
                 "Content-type": "application/json",
                 "Authorization": f"Bearer {creds.token}",
-            }
+            },
         ).json()
 
         time.sleep(3)
@@ -81,7 +81,7 @@ def compose_extract_payload(
         "jobReference": {
             "projectId": job_project,
             "location": location,
-        }
+        },
     }
     return payload
 
@@ -100,7 +100,7 @@ def query(
     create_disposition="CREATE_IF_NEEDED",
     write_disposition="WRITE_TRUNCATE",
     executor_input='{"outputs": {"outputFile": "tmp/executor_input.json"}}',
-    gcp_resources="tmp/gcp_resources.json"
+    gcp_resources="tmp/gcp_resources.json",
 ):
     """
     Execute BigQuery query job.
@@ -154,7 +154,7 @@ def query(
         "jobReference": {
             "projectId": job_project,
             "location": location,
-        }
+        },
     }
 
     job = insert_bigquery_job(payload=payload, project=job_project)
@@ -249,4 +249,3 @@ def extract_artifact(
         destination_format=destination_format,
     )
     job = insert_bigquery_job(payload=payload, project=job_project)
-

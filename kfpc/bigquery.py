@@ -9,7 +9,6 @@ from kfp.dsl import PipelineParam
 
 
 class Query:
-
     def __init__(self, name: str):
         """
         Kubeflow Pipelines component for BigQuery query job.
@@ -95,7 +94,6 @@ class Query:
 
 
 class Extract:
-
     def __init__(self, name: str = "extract"):
         self.name = name
         self.op = None
@@ -114,7 +112,9 @@ class Extract:
     ):
         if source_table_artifact:
             self.dict = yaml.load(
-                pkgutil.get_data(package="kfpc", resource=os.path.join("specifications", "extract_artifact.yaml")),
+                pkgutil.get_data(
+                    package="kfpc", resource=os.path.join("specifications", "extract_artifact.yaml")
+                ),
                 yaml.Loader,
             )
             self.dict["name"] = self.name
