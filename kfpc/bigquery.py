@@ -9,15 +9,16 @@ from kfp.dsl import PipelineParam
 
 
 class Query:
-    def __init__(self, name: str):
-        """
-        Kubeflow Pipelines component for BigQuery query job.
+    """
+    Kubeflow Pipelines component for BigQuery query job.
 
-        Parameters
-        ----------
-        name:
-            Name of the component.
-        """
+    Parameters
+    ----------
+    name:
+        Name of the component.
+    """
+
+    def __init__(self, name: str):
         self.name = name
         self.op = None
         self.dict = yaml.load(
@@ -94,6 +95,10 @@ class Query:
 
 
 class Extract:
+    """
+    Kubeflow Pipelines component for BigQuery extract job.
+    """
+
     def __init__(self, name: str = "extract"):
         self.name = name
         self.op = None
@@ -110,6 +115,23 @@ class Extract:
         source_dataset_id: Optional[str] = None,
         source_table_id: Optional[str] = None,
     ):
+        """
+
+        Parameters
+        ----------
+        job_project
+        location
+        destination_format
+        output_file_name
+        source_table_artifact
+        source_project_id
+        source_dataset_id
+        source_table_id
+
+        Returns
+        -------
+
+        """
         if source_table_artifact:
             self.dict = yaml.load(
                 pkgutil.get_data(

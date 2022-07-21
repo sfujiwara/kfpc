@@ -2,6 +2,7 @@
 
 [![GitHub Actions](https://github.com/sfujiwara/kfpc/actions/workflows/config.yaml/badge.svg)](https://github.com/sfujiwara/kfpc/actions/workflows/config.yaml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/python-3.7%20%7C%203.8-blue)](https://www.python.org)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 Components for Kubeflow Pipelines and Vertex Pipelines.
