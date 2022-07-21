@@ -7,3 +7,8 @@ venv
 
 tmp
 pipeline.json
+
+# Sphinx.
+docs/.doctrees
+docs/_sources
+docs/.buildinfo

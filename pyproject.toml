@@ -17,9 +17,9 @@ invoke = "^1.7.1"
 google-cloud-pipeline-components = "^1.0.13"
 toml = "^0.10.2"
 Sphinx = "^5.0.2"
+sphinx-rtd-theme = "^1.0.0"
 # kfpc = {path = "./kfpc", develop = true}
 
-sphinx-rtd-theme = "^1.0.0"
 [tool.black]
 line-length = 110
 
