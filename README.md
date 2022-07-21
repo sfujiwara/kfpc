@@ -5,6 +5,8 @@
 [![Python](https://img.shields.io/badge/python-3.7%20%7C%203.8-blue)](https://www.python.org)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
+[**Docs**](https://sfujiwara.github.io/kfpc/)
+
 Components for Kubeflow Pipelines and Vertex Pipelines.
 
 ## Installation
