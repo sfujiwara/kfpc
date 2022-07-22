@@ -52,41 +52,6 @@ def insert_bigquery_job(payload: dict, project: str):
     return job
 
 
-def compose_extract_payload(
-    job_project,
-    source_project_id,
-    source_dataset_id,
-    source_table_id,
-    destination_uris,
-    location,
-    labels,
-    destination_format,
-):
-    payload = {
-        "configuration": {
-            "extract": {
-                "destinationUris": destination_uris,
-                # "printHeader": True,
-                # "fieldDelimiter": ",",
-                "destinationFormat": destination_format,
-                "compression": "NONE",
-                # "useAvroLogicalTypes": True,
-                "sourceTable": {
-                    "projectId": source_project_id,
-                    "datasetId": source_dataset_id,
-                    "tableId": source_table_id,
-                },
-            },
-            "labels": labels,
-        },
-        "jobReference": {
-            "projectId": job_project,
-            "location": location,
-        },
-    }
-    return payload
-
-
 @invoke.task
 def query(
     c,
@@ -185,41 +150,27 @@ def query(
 def extract(
     c,
     job_project,
-    table_uri,
-    source_project_id,
-    source_dataset_id,
-    source_table_id,
-    output_uri,
-    output_file_name,
+    source_project,
+    source_dataset,
+    source_table,
+    destination_uri,
     location="US",
-    labels="{}",
-    destination_format="NEWLINE_DELIMITED_JSON",
     executor_input='{"outputs": {"outputFile": "tmp/executor_input.json"}}',
-    gcp_resources="tmp/gcp_resources.json",
 ):
     """
-    Parameters
-    ----------
-    table_uri:
-        URI of BigQuery table as below:
-        https://www.googleapis.com/bigquery/v2/projects/<PROJECT_ID>/datasets/<DATASET_ID>/tables/<TABLE_ID>
-    output_uri:
-        Google Cloud Storage URI
-        gs://hoge/fuga
-    gcp_resources:
-        Path to which Google Cloud Platform resource information is saved.
+    Execute BigQuery extract job.
     """
-    payload = compose_extract_payload(
-        job_project=job_project,
-        source_project_id=source_project_id,
-        source_dataset_id=source_dataset_id,
-        source_table_id=source_table_id,
-        destination_uris=[os.path.join(output_uri, output_file_name)],
-        labels=json.loads(labels),
+    client = bigquery.Client()
+    job = client.extract_table(
+        project=job_project,
+        source=f"{source_project}.{source_dataset}.{source_table}",
+        destination_uris=os.path.join(destination_uri, "out-*.jsonl"),
         location=location,
-        destination_format=destination_format,
+        job_config=bigquery.ExtractJobConfig(
+            destination_format=bigquery.DestinationFormat.NEWLINE_DELIMITED_JSON,
+        )
     )
-    job = insert_bigquery_job(payload=payload, project=job_project)
+    job.result()
 
 
 @invoke.task
@@ -227,56 +178,58 @@ def extract_artifact(
     c,
     job_project,
     table_uri,
-    output_uri,
-    output_file_name,
+    destination_uri,
     location="US",
-    labels="{}",
-    destination_format="NEWLINE_DELIMITED_JSON",
     executor_input='{"outputs": {"outputFile": "tmp/executor_input.json"}}',
-    gcp_resources="tmp/gcp_resources.json",
 ):
+    """
+    Execute BigQuery extract job.
+    """
+    # `table_uri` is
+    # https://www.googleapis.com/bigquery/v2/projects/<PROJECT_ID>/datasets/<DATASET_ID>/tables/<TABLE_ID>
     source_project = table_uri.split("/")[-5]
     source_dataset = table_uri.split("/")[-3]
     source_table = table_uri.split("/")[-1]
 
     client = bigquery.Client()
     job = client.extract_table(
+        project=job_project,
         source=f"{source_project}.{source_dataset}.{source_table}",
-        destination_uris=os.path.join(output_uri, "")
+        destination_uris=os.path.join(destination_uri, "out-*.jsonl"),
+        location=location,
+        job_config=bigquery.ExtractJobConfig(
+            destination_format=bigquery.DestinationFormat.NEWLINE_DELIMITED_JSON,
+        )
     )
     job.result()
-
-    payload = compose_extract_payload(
-        job_project=job_project,
-        source_project_id=source_project_id,
-        source_dataset_id=source_dataset_id,
-        source_table_id=source_table_id,
-        destination_uris=[os.path.join(output_uri, output_file_name)],
-        labels=json.loads(labels),
-        location=location,
-        destination_format=destination_format,
-    )
-    job = insert_bigquery_job(payload=payload, project=job_project)
 
 
 @invoke.task
 def load(
     c,
-    job_project: str,
-    source_uri: str,
-    schema: dict,
-    source_uri_suffix: str,
-    destination_project: str,
-    destination_dataset: str,
-    destination_table: str,
-    executor_input: str = '{"outputs": {"outputFile": "tmp/executor_input.json"}}',
+    job_project,
+    destination_project,
+    destination_dataset,
+    destination_table,
+    schema,
+    source_uri,
+    source_uri_suffix=None,
+    executor_input='{"outputs": {"outputFile": "tmp/executor_input.json"}}',
 ):
+    """
+    Execute BigQuery load job.
+    """
+    if source_uri_suffix:
+        source_uri = os.path.join(source_uri, source_uri_suffix)
+
     client = bigquery.Client()
     job = client.load_table_from_uri(
-        source_uris=os.path.join(source_uri, source_uri_suffix),
+        project=job_project,
+        source_uris=source_uri,
         destination=f"{destination_project}.{destination_dataset}.{destination_table}",
         job_config=bigquery.LoadJobConfig(
             source_format=bigquery.SourceFormat.NEWLINE_DELIMITED_JSON,
+            schema=json.loads(schema),
         ),
     )
     job.result()
