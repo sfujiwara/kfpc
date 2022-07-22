@@ -168,3 +168,40 @@ class Extract:
     @property
     def output_files(self) -> PipelineParam:
         return self.op.outputs["output_files"]
+
+
+class LoadArtifact:
+    """
+    Kubeflow Pipelines component for BigQuery load job.
+
+    Parameters
+    ----------
+    name:
+        Name of the component.
+    """
+
+    def __init__(self, name: str):
+        self.name = name
+
+    def task(
+        self,
+        job_project: Union[PipelineParam, str],
+        source_artifact: PipelineParam,
+        destination_project: Union[PipelineParam, str],
+        destination_dataset: Union[PipelineParam, str],
+        destination_table: Union[PipelineParam, str],
+        schema: Union[PipelineParam, dict],
+    ):
+        """
+        Generate a Kubeflow Pipelines task to execute BigQuery load job.
+
+        Parameters
+        ----------
+        job_project:
+        source_artifact:
+        destination_project:
+        destination_dataset:
+        destination_table:
+        schema:
+        """
+        return self

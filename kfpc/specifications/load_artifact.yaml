@@ -1,0 +1,31 @@
+name: load artifact
+
+inputs:
+  - name: job_project
+    type: String
+
+  - name: location
+    type: String
+
+  - name: source_artifact
+    type: Artifact
+
+outputs:
+  - name: destination_table
+    type: google.BQTable
+
+implementation:
+  container:
+    image: "gcr.io/sfujiwara/kfpc/bigquery"
+    command:
+      - inv
+      - extract-artifact
+    args:
+      - --job-project
+      - inputValue: job_project
+      - --location
+      - inputValue: location
+      - --table-uri
+      - inputUri: source_table_artifact
+      - --executor-input
+      - executorInput: null

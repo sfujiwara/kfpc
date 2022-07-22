@@ -50,6 +50,15 @@ def pipeline_fn():
         output_file_name="sample.jsonl",
     )
 
+    load_artifact_task = kfpc.bigquery.LoadArtifact(name="load").task(
+        job_project=PROJECT,
+        source_artifact=extract_task.output_files,
+        destination_project=PROJECT,
+        destination_dataset="sandbox",
+        destination_table="load",
+        schema={},
+    )
+
 
 def main():
     compiler.Compiler().compile(pipeline_func=pipeline_fn, package_path="pipeline.json")
