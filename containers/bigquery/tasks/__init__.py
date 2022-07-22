@@ -10,6 +10,7 @@ from google.protobuf.json_format import MessageToJson
 import requests
 import google.auth
 import google.auth.transport.requests
+from google.cloud import bigquery
 
 
 def insert_bigquery_job(payload: dict, project: str):
@@ -234,9 +235,16 @@ def extract_artifact(
     executor_input='{"outputs": {"outputFile": "tmp/executor_input.json"}}',
     gcp_resources="tmp/gcp_resources.json",
 ):
-    source_project_id = table_uri.split("/")[-5]
-    source_dataset_id = table_uri.split("/")[-3]
-    source_table_id = table_uri.split("/")[-1]
+    source_project = table_uri.split("/")[-5]
+    source_dataset = table_uri.split("/")[-3]
+    source_table = table_uri.split("/")[-1]
+
+    client = bigquery.Client()
+    job = client.extract_table(
+        source=f"{source_project}.{source_dataset}.{source_table}",
+        destination_uris=os.path.join(output_uri, "")
+    )
+    job.result()
 
     payload = compose_extract_payload(
         job_project=job_project,
@@ -249,3 +257,35 @@ def extract_artifact(
         destination_format=destination_format,
     )
     job = insert_bigquery_job(payload=payload, project=job_project)
+
+
+@invoke.task
+def load(
+    c,
+    job_project: str,
+    source_uri: str,
+    schema: dict,
+    source_uri_suffix: str,
+    destination_project: str,
+    destination_dataset: str,
+    destination_table: str,
+    executor_input: str = '{"outputs": {"outputFile": "tmp/executor_input.json"}}',
+):
+    client = bigquery.Client()
+    job = client.load_table_from_uri(
+        source_uris=os.path.join(source_uri, source_uri_suffix),
+        destination=f"{destination_project}.{destination_dataset}.{destination_table}",
+        job_config=bigquery.LoadJobConfig(
+            source_format=bigquery.SourceFormat.NEWLINE_DELIMITED_JSON,
+        ),
+    )
+    job.result()
+
+    # Write BQTable artifact.
+    bq_table_artifact = BQTable(
+        name="destination_table",
+        project_id=destination_project,
+        dataset_id=destination_dataset,
+        table_id=destination_table,
+    )
+    artifact_util.update_output_artifacts(executor_input, [bq_table_artifact])
