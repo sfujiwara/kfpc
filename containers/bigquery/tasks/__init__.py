@@ -214,6 +214,7 @@ def load(
     schema,
     source_uri,
     source_uri_suffix=None,
+    location="US",
     executor_input='{"outputs": {"outputFile": "tmp/executor_input.json"}}',
 ):
     """
@@ -227,6 +228,7 @@ def load(
         project=job_project,
         source_uris=source_uri,
         destination=f"{destination_project}.{destination_dataset}.{destination_table}",
+        location=location,
         job_config=bigquery.LoadJobConfig(
             source_format=bigquery.SourceFormat.NEWLINE_DELIMITED_JSON,
             schema=json.loads(schema),
