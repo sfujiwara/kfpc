@@ -48,14 +48,27 @@ def black_fmt(c):
     c.run("black .")
 
 
-d = invoke.Collection("docker")
-d.add_task(task=docker_build, name="build")
-d.add_task(task=docker_push, name="push")
+@invoke.task
+def docs_build(c):
+    """
+    Generate documentations using Sphinx.
+    """
+    with c.cd("sphinx"):
+        c.run("make html")
 
-b = invoke.Collection("black")
-b.add_task(task=black_diff, name="diff")
-b.add_task(task=black_fmt, name="fmt")
+
+docker = invoke.Collection("docker")
+docker.add_task(task=docker_build, name="build")
+docker.add_task(task=docker_push, name="push")
+
+black = invoke.Collection("black")
+black.add_task(task=black_diff, name="diff")
+black.add_task(task=black_fmt, name="fmt")
+
+docs = invoke.Collection("docs")
+docs.add_task(task=docs_build, name="build")
 
 ns = invoke.Collection()
-ns.add_collection(d)
-ns.add_collection(b)
+ns.add_collection(docker)
+ns.add_collection(black)
+ns.add_collection(docs)

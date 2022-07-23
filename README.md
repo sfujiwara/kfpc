@@ -12,7 +12,7 @@ Components for Kubeflow Pipelines and Vertex Pipelines.
 ## Installation
 
 ```shell
-pip install git+https://github.com/sfujiwara/kfpc
+pip install git+https://github.com/sfujiwara/kfpc@${RELEASE_TAG}
 ```
 
 ## Basic Usage
@@ -31,7 +31,6 @@ def pipeline_fn(project: str):
     query_task = kfpc.bigquery.Query(name="query").task(
         job_project=project,
         query="SELECT 1",
-        location="US",
         destination_project=project,
         destination_dataset="sandbox",
         destination_table="tmp",
@@ -44,7 +43,6 @@ compiler.Compiler().compile(pipeline_func=pipeline_fn, package_path="pipeline.js
 job = aiplatform.PipelineJob(
     project=project,
     display_name="simple",
-    enable_caching=False,
     template_path="pipeline.json",
     parameter_values={"project": project},
     pipeline_root=f"gs://{project}-vertex/pipeline-root",
