@@ -1,11 +1,16 @@
 import os
 import pkgutil
+from typing import Dict
 from typing import List
 from typing import Union
 from typing import Optional
 import yaml
 from kfp.components import load_component_from_text
 from kfp.dsl import PipelineParam
+from kfpc.version import get_version
+
+
+KFPC_BIGQUERY_IMAGE = f"gcr.io/sfujiwara/kfpc/bigquery:{get_version()}"
 
 
 class Query:
@@ -26,15 +31,16 @@ class Query:
             yaml.Loader,
         )
         self.dict["name"] = self.name
+        self.dict["implementation"]["container"]["image"] = KFPC_BIGQUERY_IMAGE
 
     def task(
         self,
         query: Union[PipelineParam, str],
         job_project: Union[PipelineParam, str],
-        location: Union[PipelineParam, str],
         destination_project: Union[PipelineParam, str],
         destination_dataset: Union[PipelineParam, str],
         destination_table: Union[PipelineParam, str],
+        location: Union[PipelineParam, str] = "US",
         depend_on: Optional[List[PipelineParam]] = None,
     ):
         """
@@ -107,6 +113,7 @@ class Extract:
             yaml.Loader,
         )
         self.dict["name"] = self.name
+        self.dict["implementation"]["container"]["image"] = KFPC_BIGQUERY_IMAGE
 
     def task(
         self,
@@ -167,12 +174,13 @@ class ExtractArtifact:
             yaml.Loader,
         )
         self.dict["name"] = self.name
+        self.dict["implementation"]["container"]["image"] = KFPC_BIGQUERY_IMAGE
 
     def task(
         self,
         job_project: Union[PipelineParam, str],
-        location: Union[PipelineParam, str],
         source_table_artifact: Optional[PipelineParam],
+        location: Union[PipelineParam, str] = "US",
     ):
         self.op = load_component_from_text(yaml.dump(self.dict))(
             job_project=job_project,
@@ -181,8 +189,12 @@ class ExtractArtifact:
         )
         return self
 
+    @property
+    def output_files(self) -> PipelineParam:
+        return self.op.outputs["output_files"]
 
-class LoadArtifact:
+
+class Load:
     """
     Kubeflow Pipelines component for BigQuery load job.
 
@@ -194,16 +206,26 @@ class LoadArtifact:
 
     def __init__(self, name: str):
         self.name = name
+        self.op = None
+        self.dict = yaml.load(
+            pkgutil.get_data(
+                package="kfpc", resource=os.path.join("specifications", "load.yaml")
+            ),
+            yaml.Loader,
+        )
+        self.dict["name"] = self.name
+        self.dict["implementation"]["container"]["image"] = KFPC_BIGQUERY_IMAGE
 
     def task(
         self,
         job_project: Union[PipelineParam, str],
-        source_artifact: PipelineParam,
-        source_artifact_name: PipelineParam,
         destination_project: Union[PipelineParam, str],
         destination_dataset: Union[PipelineParam, str],
         destination_table: Union[PipelineParam, str],
-        schema: Union[PipelineParam, dict],
+        schema: Union[PipelineParam, List[Dict]],
+        source_artifact: PipelineParam,
+        source_uri_suffix="",
+        location="US",
     ):
         """
         Generate a Kubeflow Pipelines task to execute BigQuery load job.
@@ -217,4 +239,14 @@ class LoadArtifact:
         destination_table:
         schema:
         """
+        self.op = load_component_from_text(yaml.dump(self.dict))(
+            job_project=job_project,
+            source_artifact=source_artifact,
+            destination_project=destination_project,
+            destination_dataset=destination_dataset,
+            destination_table=destination_table,
+            location=location,
+            schema=schema,
+            source_uri_suffix=source_uri_suffix,
+        )
         return self

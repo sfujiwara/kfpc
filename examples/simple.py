@@ -17,7 +17,6 @@ def pipeline_fn():
     query_select1_task = kfpc.bigquery.Query(name="select-1").task(
         query="SELECT 1",
         job_project=PROJECT,
-        location="US",
         destination_project=PROJECT,
         destination_dataset="sandbox",
         destination_table="select1",
@@ -26,7 +25,6 @@ def pipeline_fn():
     query_select2_task = kfpc.bigquery.Query(name="select-2").task(
         query="SELECT 2",
         job_project=PROJECT,
-        location="US",
         destination_project=PROJECT,
         destination_dataset="sandbox",
         destination_table="select2",
@@ -35,28 +33,25 @@ def pipeline_fn():
     query_select3_task = kfpc.bigquery.Query(name="select-3").task(
         query="SELECT 3",
         job_project=PROJECT,
-        location="US",
         destination_project=PROJECT,
         destination_dataset="sandbox",
         destination_table="select3",
         depend_on=[query_select1_task.destination_table, query_select2_task.destination_table],
     )
 
-    extract_task = kfpc.bigquery.Extract(name="extract").task(
+    extract_task = kfpc.bigquery.ExtractArtifact(name="extract").task(
         job_project=PROJECT,
         source_table_artifact=query_select3_task.destination_table,
-        destination_format="NEWLINE_DELIMITED_JSON",
-        location="US",
-        output_file_name="sample.jsonl",
     )
 
-    load_artifact_task = kfpc.bigquery.LoadArtifact(name="load").task(
+    load_artifact_task = kfpc.bigquery.Load(name="load").task(
         job_project=PROJECT,
         source_artifact=extract_task.output_files,
         destination_project=PROJECT,
         destination_dataset="sandbox",
         destination_table="load",
-        schema={},
+        schema=[{"name": "f0_", "type": "INTEGER"}],
+        source_uri_suffix="out-*.jsonl"
     )
 
 

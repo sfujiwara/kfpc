@@ -1,7 +1,22 @@
-name: load artifact
+name: bq-load
 
 inputs:
   - name: job_project
+    type: String
+
+  - name: destination_project
+    type: String
+
+  - name: destination_dataset
+    type: String
+
+  - name: destination_table
+    type: String
+
+  - name: schema
+    type: JsonArray
+
+  - name: source_uri_suffix
     type: String
 
   - name: location
@@ -19,13 +34,23 @@ implementation:
     image: "gcr.io/sfujiwara/kfpc/bigquery"
     command:
       - inv
-      - extract-artifact
+      - load
     args:
       - --job-project
       - inputValue: job_project
       - --location
       - inputValue: location
-      - --table-uri
-      - inputUri: source_table_artifact
+      - --source-uri
+      - inputUri: source_artifact
+      - --source-uri-suffix
+      - inputValue: source_uri_suffix
+      - --schema
+      - inputValue: schema
+      - --destination-project
+      - inputValue: destination_project
+      - --destination-dataset
+      - inputValue: destination_dataset
+      - --destination-table
+      - inputValue: destination_table
       - --executor-input
       - executorInput: null
