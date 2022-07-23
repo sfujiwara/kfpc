@@ -1,5 +1,4 @@
-import pkg_resources
 from kfpc import bigquery
+from kfpc.version import get_version
 
-
-__version__ = pkg_resources.get_distribution("kfpc").version
+__version__ = get_version()

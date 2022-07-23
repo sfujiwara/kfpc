@@ -4,6 +4,7 @@
 venv
 *.pyc
 *.egg-info
+poetry.lock
 
 tmp
 pipeline.json

@@ -34,11 +34,17 @@ def docker_push(c):
 
 @invoke.task
 def black_diff(c):
+    """
+    Show the diffs of Black formatter.
+    """
     c.run("black --diff --check .")
 
 
 @invoke.task
 def black_fmt(c):
+    """
+    Apply Black formatter.
+    """
     c.run("black .")
 
 

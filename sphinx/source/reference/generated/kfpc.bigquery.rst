@@ -18,6 +18,8 @@ kfpc.bigquery
    .. autosummary::
    
       Extract
+      ExtractArtifact
+      Load
       Query
    
    

@@ -4,24 +4,15 @@ inputs:
   - name: job_project
     type: String
 
-  - name: destination_format
-    type: String
-
   - name: location
     type: String
 
   - name: source_table_artifact
     type: google.BQTable
 
-  - name: output_file_name
-    type: String
-
 outputs:
   - name: output_files
     type: Artifact
-
-  - name: gcp_resources
-    type: String
 
 implementation:
   container:
@@ -36,13 +27,7 @@ implementation:
       - inputValue: location
       - --table-uri
       - inputUri: source_table_artifact
-      - --destination-format
-      - inputValue: destination_format
-      - --output-uri
+      - --destination-uri
       - outputUri: output_files
-      - --output-file-name
-      - inputValue: output_file_name
-      - --gcp-resources
-      - outputPath: gcp_resources
       - --executor-input
       - executorInput: null
