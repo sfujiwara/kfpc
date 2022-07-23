@@ -51,7 +51,7 @@ def pipeline_fn():
         destination_dataset="sandbox",
         destination_table="load",
         schema=[{"name": "f0_", "type": "INTEGER"}],
-        source_uri_suffix="out-*.jsonl"
+        source_uri_suffix="out-*.jsonl",
     )
 
 

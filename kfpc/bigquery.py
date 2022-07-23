@@ -208,9 +208,7 @@ class Load:
         self.name = name
         self.op = None
         self.dict = yaml.load(
-            pkgutil.get_data(
-                package="kfpc", resource=os.path.join("specifications", "load.yaml")
-            ),
+            pkgutil.get_data(package="kfpc", resource=os.path.join("specifications", "load.yaml")),
             yaml.Loader,
         )
         self.dict["name"] = self.name

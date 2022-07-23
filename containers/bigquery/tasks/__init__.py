@@ -168,7 +168,7 @@ def extract(
         location=location,
         job_config=bigquery.ExtractJobConfig(
             destination_format=bigquery.DestinationFormat.NEWLINE_DELIMITED_JSON,
-        )
+        ),
     )
     job.result()
 
@@ -199,7 +199,7 @@ def extract_artifact(
         location=location,
         job_config=bigquery.ExtractJobConfig(
             destination_format=bigquery.DestinationFormat.NEWLINE_DELIMITED_JSON,
-        )
+        ),
     )
     job.result()
 
