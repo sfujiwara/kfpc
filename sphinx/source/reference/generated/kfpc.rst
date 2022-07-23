@@ -28,4 +28,5 @@
    :recursive:
 
    kfpc.bigquery
+   kfpc.version
 

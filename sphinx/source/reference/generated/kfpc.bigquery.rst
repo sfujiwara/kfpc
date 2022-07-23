@@ -1,4 +1,4 @@
-﻿kfpc.bigquery
+kfpc.bigquery
 =============
 
 .. automodule:: kfpc.bigquery
@@ -19,7 +19,7 @@
    
       Extract
       ExtractArtifact
-      LoadArtifact
+      Load
       Query
    
    
