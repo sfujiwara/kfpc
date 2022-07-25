@@ -59,9 +59,13 @@ class Query:
         destination_dataset:
             BigQuery dataset ID of the destination table.
         destination_table:
-            Table ID of the destination table.
+            BigQuery table ID of the destination table.
         depend_on:
             Required table artifacts to execute this query.
+
+        Returns
+        -------
+        self
         """
         if depend_on:
             d = {}
@@ -130,9 +134,13 @@ class Extract:
         job_project:
             Google Cloud Platform project ID to execute query job.
         location:
+            Location of BigQuery sources.
         source_project_id:
+            Google Cloud Platform project ID of the source table.
         source_dataset_id:
+            BigQuery dataset ID of the source table.
         source_table_id:
+            BigQuery table ID of the source table.
 
         Returns
         -------
@@ -161,7 +169,7 @@ class ExtractArtifact:
     Parameters
     ----------
     name:
-        The name of this component.
+        Name of the component.
     """
 
     def __init__(self, name):
@@ -231,11 +239,21 @@ class Load:
         Parameters
         ----------
         job_project:
+            Google Cloud Platform project ID to execute load job.
         source_artifact:
         destination_project:
+            Google Cloud Platform project ID of the destination table.
         destination_dataset:
+            BigQuery dataset ID of the destination table.
         destination_table:
+            BigQuery table ID of the destination table.
         schema:
+            BigQuery table schema of the destination table.
+        source_uri_suffix:
+            Load files matched to ``os.path.join(source_uri, source_uri_suffix)``.
+            ``source_uri`` is Kubeflow Pipelines placeholder ``inputPath`` of ``source_artifact``.
+        location:
+            Location of BigQuery destination table.
         """
         self.op = load_component_from_text(yaml.dump(self.dict))(
             job_project=job_project,
