@@ -195,7 +195,7 @@ def extract_artifact(
     job = client.extract_table(
         project=job_project,
         source=f"{source_project}.{source_dataset}.{source_table}",
-        destination_uris=os.path.join(destination_uri, "out-*.jsonl"),
+        destination_uris=os.path.join(destination_uri, "data-*.jsonl"),
         location=location,
         job_config=bigquery.ExtractJobConfig(
             destination_format=bigquery.DestinationFormat.NEWLINE_DELIMITED_JSON,
