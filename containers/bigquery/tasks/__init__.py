@@ -33,7 +33,10 @@ def insert_bigquery_job(payload: dict, project: str):
     while True:
 
         if job["status"]["state"] == "DONE":
-            break
+            if "errorResult" in job["status"]:
+                raise Exception(job["status"]["errorResult"])
+            else:
+                break
 
         if not creds.valid:
             creds.refresh(google.auth.transport.requests.Request())
