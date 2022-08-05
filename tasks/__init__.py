@@ -27,6 +27,9 @@ def docker_push(c):
     """
     Build and push Docker image.
     """
+    c.run("docker-compose build")
+    c.run("docker-compose push")
+
     os.environ["VERSION"] = get_version()
     c.run("docker-compose build")
     c.run("docker-compose push")
