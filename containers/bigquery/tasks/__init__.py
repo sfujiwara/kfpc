@@ -235,6 +235,7 @@ def load(
         job_config=bigquery.LoadJobConfig(
             source_format=bigquery.SourceFormat.NEWLINE_DELIMITED_JSON,
             schema=json.loads(schema),
+            write_disposition=bigquery.WriteDisposition.WRITE_TRUNCATE,
         ),
     )
     job.result()
