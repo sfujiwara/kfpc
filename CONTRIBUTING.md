@@ -33,10 +33,7 @@ gitGraph
 
 1. Create release branch `release/${VERSION}`
 2. Increment version numbers in [`pyproject.toml`](pyproject.toml)
-3. Build and push Docker image
-   ```shell
-   inv docker.push
-   ```
+3. Build and push Docker image with the command `inv docker.push`
 4. Create pull request and merge it to `main` branch
 
 ### Git Tag and Release Note
