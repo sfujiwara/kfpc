@@ -4,3 +4,7 @@ services:
   bigquery:
     image: "gcr.io/sfujiwara/kfpc/bigquery:${VERSION:-latest}"
     build: containers/bigquery
+
+  notification:
+    image: "gcr.io/sfujiwara/kfpc/notification:${VERSION:-latest}"
+    build: containers/notification
