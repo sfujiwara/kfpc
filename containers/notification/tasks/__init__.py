@@ -1,19 +1,35 @@
+from dataclasses import dataclass
+import json
 import os
+import dacite
 from google.cloud import aiplatform
 from googleapiclient import discovery
 import invoke
 import requests
 
 
-@invoke.task
-def slack(ctx, config, job_resource_name, job_name, enable):
-    # Vertex AI instance has project number in environment variable `CLOUD_ML_PROJECT_ID`.
-    project_number = os.getenv("CLOUD_ML_PROJECT_ID")
+@dataclass
+class SlackNotificationConfig:
+    webhook_url: str
+    mentions: list[str]
 
-    # Get project ID from project number.
+
+def project_number_to_id(project_number: str) -> str:
+    """Get project ID from project number."""
     crm = discovery.build("cloudresourcemanager", "v3")
     res = crm.projects().get(name=f"projects/{project_number}").execute()
     project_id = res["projectId"]
+
+    return project_id
+
+
+@invoke.task
+def slack(ctx, config, job_resource_name, job_name):
+    config = dacite.from_dict(data_class=SlackNotificationConfig, data=json.loads(config))
+
+    # Vertex AI instance has project number in environment variable `CLOUD_ML_PROJECT_ID`.
+    project_number = os.getenv("CLOUD_ML_PROJECT_ID")
+    project_id = project_number_to_id(project_number=project_number)
 
     job = aiplatform.PipelineJob.get(resource_name=job_resource_name, project=project_number).to_dict()
     tasks = job["jobDetail"]["taskDetails"]
@@ -55,7 +71,7 @@ def slack(ctx, config, job_resource_name, job_name, enable):
     }
 
     if not succeeded:
-        mention_to_maintainers = " ".join([f"<@{i}>" for i in mentions])
+        mention_to_maintainers = " ".join([f"<@{i}>" for i in config.mentions])
         payload["attachments"][0]["blocks"].append(
             {
                 "type": "section",
@@ -66,4 +82,4 @@ def slack(ctx, config, job_resource_name, job_name, enable):
             }
         )
 
-    return payload
+    requests.post(url=config.webhook_url, json=payload)
