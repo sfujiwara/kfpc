@@ -6,7 +6,8 @@ from typing import Union
 from typing import Optional
 import yaml
 from kfp.components import load_component_from_text
-from kfp.dsl import PipelineParam
+# from kfp.dsl import PipelineParam
+from kfp.deprecated.dsl import PipelineParam
 from kfpc.version import get_version
 
 

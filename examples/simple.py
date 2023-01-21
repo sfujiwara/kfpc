@@ -3,6 +3,7 @@ import kfp
 from kfp.v2 import compiler
 from google.cloud import aiplatform
 import kfpc
+import kfp.dsl
 
 
 parser = argparse.ArgumentParser()
@@ -51,7 +52,7 @@ def pipeline_fn():
         destination_dataset="sandbox",
         destination_table="load",
         schema=[{"name": "f0_", "type": "INTEGER"}],
-        source_uri_suffix="out-*.jsonl",
+        source_uri_suffix="data-*.jsonl",
     )
 
 
