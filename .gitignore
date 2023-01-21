@@ -8,6 +8,7 @@ poetry.lock
 
 tmp
 pipeline.json
+pipeline.yaml
 
 # Sphinx.
 docs/.doctrees
