@@ -6,8 +6,8 @@ license = "MIT"
 authors = ["sfujiwara <shuhei.fujiwara@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = ">=3.8, <3.11"
-kfp = ">=2.0.0b10"
+python = ">=3.7, <3.11"
+kfp = ">=2.0.0b11"
 
 [tool.poetry.dev-dependencies]
 black = "22.12.0"
