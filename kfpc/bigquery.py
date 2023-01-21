@@ -6,8 +6,8 @@ from typing import Union
 from typing import Optional
 import yaml
 from kfp.components import load_component_from_text
-# from kfp.dsl import PipelineParam
-from kfp.deprecated.dsl import PipelineParam
+from kfp.components.pipeline_channel import PipelineParameterChannel
+from kfp.components.pipeline_channel import PipelineArtifactChannel
 from kfpc.version import get_version
 
 
@@ -36,13 +36,13 @@ class Query:
 
     def task(
         self,
-        query: Union[PipelineParam, str],
-        job_project: Union[PipelineParam, str],
-        destination_project: Union[PipelineParam, str],
-        destination_dataset: Union[PipelineParam, str],
-        destination_table: Union[PipelineParam, str],
-        location: Union[PipelineParam, str] = "US",
-        depend_on: Optional[List[PipelineParam]] = None,
+        query: Union[PipelineParameterChannel, str],
+        job_project: Union[PipelineParameterChannel, str],
+        destination_project: Union[PipelineParameterChannel, str],
+        destination_dataset: Union[PipelineParameterChannel, str],
+        destination_table: Union[PipelineParameterChannel, str],
+        location: Union[PipelineParameterChannel, str] = "US",
+        depend_on: Optional[List[PipelineArtifactChannel]] = None,
     ):
         """
         Generate a Kubeflow Pipelines task.
@@ -97,11 +97,11 @@ class Query:
         return self
 
     @property
-    def gcp_resources(self) -> PipelineParam:
+    def gcp_resources(self) -> PipelineParameterChannel:
         return self.op.outputs["gcp_resources"]
 
     @property
-    def destination_table(self) -> PipelineParam:
+    def destination_table(self) -> PipelineArtifactChannel:
         return self.op.outputs["destination_table"]
 
 
@@ -127,8 +127,8 @@ class Extract:
 
     def task(
         self,
-        job_project: Union[PipelineParam, str],
-        location: Union[PipelineParam, str],
+        job_project: Union[PipelineParameterChannel, str],
+        location: Union[PipelineParameterChannel, str],
         source_project_id: Optional[str] = None,
         source_dataset_id: Optional[str] = None,
         source_table_id: Optional[str] = None,
@@ -164,7 +164,7 @@ class Extract:
         return self
 
     @property
-    def output_files(self) -> PipelineParam:
+    def output_files(self) -> PipelineArtifactChannel:
         return self.op.outputs["output_files"]
 
 
@@ -193,9 +193,9 @@ class ExtractArtifact:
 
     def task(
         self,
-        job_project: Union[PipelineParam, str],
-        source_table_artifact: Optional[PipelineParam],
-        location: Union[PipelineParam, str] = "US",
+        job_project: Union[PipelineParameterChannel, str],
+        source_table_artifact: Optional[PipelineArtifactChannel],
+        location: Union[PipelineParameterChannel, str] = "US",
     ):
         """
         Generate Kubeflow Pipelines task to submit BigQuery extract job.
@@ -222,7 +222,7 @@ class ExtractArtifact:
         return self
 
     @property
-    def output_files(self) -> PipelineParam:
+    def output_files(self) -> PipelineArtifactChannel:
         return self.op.outputs["output_files"]
 
 
@@ -248,12 +248,12 @@ class Load:
 
     def task(
         self,
-        job_project: Union[PipelineParam, str],
-        destination_project: Union[PipelineParam, str],
-        destination_dataset: Union[PipelineParam, str],
-        destination_table: Union[PipelineParam, str],
-        schema: Union[PipelineParam, List[Dict]],
-        source_artifact: PipelineParam,
+        job_project: Union[PipelineParameterChannel, str],
+        destination_project: Union[PipelineParameterChannel, str],
+        destination_dataset: Union[PipelineParameterChannel, str],
+        destination_table: Union[PipelineParameterChannel, str],
+        schema: Union[PipelineParameterChannel, List[Dict]],
+        source_artifact: PipelineArtifactChannel,
         source_uri_suffix="",
         location="US",
     ):
