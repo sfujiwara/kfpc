@@ -27,7 +27,9 @@ class Query:
         self.name = name
         self.op = None
         self.dict = yaml.load(
-            pkgutil.get_data(package="kfpc", resource=os.path.join("specifications", "query.yaml")),
+            pkgutil.get_data(
+                package="kfpc", resource=os.path.join("specifications", "query.yaml")
+            ),
             yaml.Loader,
         )
         self.dict["name"] = self.name
@@ -116,7 +118,9 @@ class Extract:
         self.name = name
         self.op = None
         self.dict = yaml.load(
-            pkgutil.get_data(package="kfpc", resource=os.path.join("specifications", "extract.yaml")),
+            pkgutil.get_data(
+                package="kfpc", resource=os.path.join("specifications", "extract.yaml")
+            ),
             yaml.Loader,
         )
         self.dict["name"] = self.name
@@ -179,7 +183,8 @@ class ExtractArtifact:
         self.op = None
         self.dict = yaml.load(
             pkgutil.get_data(
-                package="kfpc", resource=os.path.join("specifications", "extract_artifact.yaml")
+                package="kfpc",
+                resource=os.path.join("specifications", "extract_artifact.yaml"),
             ),
             yaml.Loader,
         )
@@ -233,7 +238,9 @@ class Load:
         self.name = name
         self.op = None
         self.dict = yaml.load(
-            pkgutil.get_data(package="kfpc", resource=os.path.join("specifications", "load.yaml")),
+            pkgutil.get_data(
+                package="kfpc", resource=os.path.join("specifications", "load.yaml")
+            ),
             yaml.Loader,
         )
         self.dict["name"] = self.name

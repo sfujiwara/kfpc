@@ -36,7 +36,10 @@ def pipeline_fn(project: str):
         destination_project=project,
         destination_dataset="sandbox",
         destination_table="select3",
-        depend_on=[query_select1_task.destination_table, query_select2_task.destination_table],
+        depend_on=[
+            query_select1_task.destination_table,
+            query_select2_task.destination_table,
+        ],
     )
 
     extract_task = kfpc.bigquery.ExtractArtifact(name="extract").task(

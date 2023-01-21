@@ -4,7 +4,9 @@ import os
 import time
 import invoke
 from google_cloud_pipeline_components.types.artifact_types import BQTable
-from google_cloud_pipeline_components.container.v1.gcp_launcher.utils import artifact_util
+from google_cloud_pipeline_components.container.v1.gcp_launcher.utils import (
+    artifact_util,
+)
 from google_cloud_pipeline_components.proto.gcp_resources_pb2 import GcpResources
 from google.protobuf.json_format import MessageToJson
 import requests
