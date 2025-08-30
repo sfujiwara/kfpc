@@ -1,19 +1,13 @@
-import argparse
-from kfp.v2 import compiler
-from google.cloud import aiplatform
-import kfpc
+"""A simple pipeline."""
+
 import kfp.dsl
 
-
-def parse():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--project", type=str, required=True)
-    args = parser.parse_args()
-    return args
+import kfpc
 
 
 @kfp.dsl.pipeline(name="simple")
-def pipeline_fn(project: str):
+def pipeline_fn(project: str) -> None:
+    """Pipeline function."""
     query_select1_task = kfpc.bigquery.Query(name="select-1").task(
         query="SELECT 1",
         job_project=project,
@@ -47,7 +41,7 @@ def pipeline_fn(project: str):
         source_table_artifact=query_select3_task.destination_table,
     )
 
-    load_artifact_task = kfpc.bigquery.Load(name="load").task(
+    _ = kfpc.bigquery.Load(name="load").task(
         job_project=project,
         source_artifact=extract_task.output_files,
         destination_project=project,
@@ -56,23 +50,3 @@ def pipeline_fn(project: str):
         schema=[{"name": "f0_", "type": "INTEGER"}],
         source_uri_suffix="data-*.jsonl",
     )
-
-
-def main():
-    args = parse()
-    project = args.project
-
-    compiler.Compiler().compile(pipeline_func=pipeline_fn, package_path="pipeline.yaml")
-    job = aiplatform.PipelineJob(
-        project=project,
-        display_name="simple",
-        enable_caching=False,
-        template_path="pipeline.yaml",
-        parameter_values={"project": project},
-        pipeline_root=f"gs://{project}-vertex-ai/pipeline-root",
-    )
-    job.submit()
-
-
-if __name__ == "__main__":
-    main()
