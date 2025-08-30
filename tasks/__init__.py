@@ -26,14 +26,9 @@ def docker_build(c: invoke.Context) -> None:
     c.run("docker compose build")
 
 
-@invoke.task
+@invoke.task(pre=[docker_build])
 def docker_push(c: invoke.Context) -> None:
     """Build and push Docker image."""
-    c.run("docker compose build")
-    c.run("docker compose push")
-
-    os.environ["VERSION"] = get_version()
-    c.run("docker compose build")
     c.run("docker compose push")
 
 

@@ -1,14 +1,18 @@
+"""Components for BigQuery."""
+
 from __future__ import annotations
 
-import os
 import pkgutil
-from typing import Union
-from typing import Optional
+from pathlib import Path
+from typing import TYPE_CHECKING
+
 import yaml
 from kfp.components import load_component_from_text
-from kfp.dsl.pipeline_channel import PipelineArtifactChannel, PipelineParameterChannel
-from kfpc.version import get_version
 
+if TYPE_CHECKING:
+    from kfp.dsl.pipeline_channel import PipelineArtifactChannel, PipelineParameterChannel
+
+from kfpc.version import get_version
 
 KFPC_BIGQUERY_IMAGE = f"gcr.io/sfujiwara/kfpc/bigquery:{get_version()}"
 
@@ -24,13 +28,13 @@ class Query:
     """
 
     def __init__(self, name: str) -> None:
+        """Initialize ``Query`` instance."""
         self.name = name
         self.op = None
-        self.dict = yaml.load(
+        self.dict = yaml.safe_load(
             pkgutil.get_data(
-                package="kfpc", resource=os.path.join("specifications", "query.yaml")
+                package="kfpc", resource=str(Path("specifications") / "query.yaml"),
             ),
-            yaml.Loader,
         )
         self.dict["name"] = self.name
         self.dict["implementation"]["container"]["image"] = KFPC_BIGQUERY_IMAGE
@@ -44,7 +48,7 @@ class Query:
         destination_table: PipelineParameterChannel | str,
         location: PipelineParameterChannel | str = "US",
         depend_on: list[PipelineArtifactChannel] | None = None,
-    ):
+    ) -> Query:
         """Generate a Kubeflow Pipelines task.
 
         Parameters
@@ -74,7 +78,7 @@ class Query:
             for i, t in enumerate(depend_on):
                 key = f"table{i+1}"
                 self.dict["inputs"].append({"name": key, "type": "google.BQTable"})
-                d[key] = depend_on[i]
+                d[key] = t
 
             self.op = load_component_from_text(yaml.dump(self.dict))(
                 query=query,
@@ -99,10 +103,12 @@ class Query:
 
     @property
     def gcp_resources(self) -> PipelineParameterChannel:
+        """GCP resource."""
         return self.op.outputs["gcp_resources"]
 
     @property
     def destination_table(self) -> PipelineArtifactChannel:
+        """Destination table."""
         return self.op.outputs["destination_table"]
 
 
@@ -117,13 +123,13 @@ class Extract:
     """
 
     def __init__(self, name: str = "extract") -> None:
+        """Initialize ``Extract`` instance."""
         self.name = name
         self.op = None
-        self.dict = yaml.load(
+        self.dict = yaml.safe_load(
             pkgutil.get_data(
-                package="kfpc", resource=os.path.join("specifications", "extract.yaml")
+                package="kfpc", resource=str(Path("specifications") / "extract.yaml"),
             ),
-            yaml.Loader,
         )
         self.dict["name"] = self.name
         self.dict["implementation"]["container"]["image"] = KFPC_BIGQUERY_IMAGE
@@ -135,7 +141,7 @@ class Extract:
         source_project_id: str | None = None,
         source_dataset_id: str | None = None,
         source_table_id: str | None = None,
-    ):
+    ) -> Extract:
         """Generate Kubeflow Pipelines task to submit BigQuery extract job.
 
         Parameters
@@ -168,6 +174,7 @@ class Extract:
 
     @property
     def output_files(self) -> PipelineArtifactChannel:
+        """Output files."""
         return self.op.outputs["output_files"]
 
 
@@ -184,24 +191,24 @@ class ExtractArtifact:
     """
 
     def __init__(self, name: str) -> None:
+        """Initialize ``ExtractArtifact`` instance."""
         self.name = name
         self.op = None
-        self.dict = yaml.load(
+        self.dict = yaml.safe_load(
             pkgutil.get_data(
                 package="kfpc",
-                resource=os.path.join("specifications", "extract_artifact.yaml"),
+                resource=str(Path("specifications") / "extract_artifact.yaml"),
             ),
-            yaml.Loader,
         )
         self.dict["name"] = self.name
         self.dict["implementation"]["container"]["image"] = KFPC_BIGQUERY_IMAGE
 
     def task(
         self,
-        job_project: Union[PipelineParameterChannel, str],
-        source_table_artifact: Optional[PipelineArtifactChannel],
-        location: Union[PipelineParameterChannel, str] = "US",
-    ):
+        job_project: PipelineParameterChannel | str,
+        source_table_artifact: PipelineArtifactChannel | None,
+        location: PipelineParameterChannel | str = "US",
+    ) -> ExtractArtifact:
         """Generate Kubeflow Pipelines task to submit BigQuery extract job.
 
         Parameters
@@ -228,6 +235,7 @@ class ExtractArtifact:
 
     @property
     def output_files(self) -> PipelineArtifactChannel:
+        """Output files."""
         return self.op.outputs["output_files"]
 
 
@@ -241,14 +249,14 @@ class Load:
 
     """
 
-    def __init__(self, name: str):
+    def __init__(self, name: str) -> None:
+        """Initialize ``Load`` instance."""
         self.name = name
         self.op = None
-        self.dict = yaml.load(
+        self.dict = yaml.safe_load(
             pkgutil.get_data(
-                package="kfpc", resource=os.path.join("specifications", "load.yaml")
+                package="kfpc", resource=str(Path("specifications") / "load.yaml"),
             ),
-            yaml.Loader,
         )
         self.dict["name"] = self.name
         self.dict["implementation"]["container"]["image"] = KFPC_BIGQUERY_IMAGE
@@ -263,7 +271,7 @@ class Load:
         source_artifact: PipelineArtifactChannel,
         source_uri_suffix: str = "",
         location: str = "US",
-    ):
+    ) -> Load:
         """Generate a Kubeflow Pipelines task to execute BigQuery load job.
 
         Parameters
@@ -279,6 +287,8 @@ class Load:
             BigQuery table ID of the destination table.
         schema:
             BigQuery table schema of the destination table.
+        source_artifact:
+            Source artifact to be loaded.
         source_uri_suffix:
             Load files matched to ``os.path.join(source_uri, source_uri_suffix)``.
             ``source_uri`` is Kubeflow Pipelines placeholder ``inputPath`` of ``source_artifact``.
