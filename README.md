@@ -2,8 +2,8 @@
 
 [![GitHub Actions](https://github.com/sfujiwara/kfpc/actions/workflows/config.yaml/badge.svg)](https://github.com/sfujiwara/kfpc/actions/workflows/config.yaml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Python](https://img.shields.io/badge/python-3.7%20%7C%203.8%20%7C%203.9%20%7C%203.10-blue)](https://www.python.org)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+[![Python](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13-blue)](https://www.python.org)
 
 [**Docs**](https://sfujiwara.github.io/kfpc/)
 
