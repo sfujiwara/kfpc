@@ -4,29 +4,13 @@ kfpc.bigquery
 .. automodule:: kfpc.bigquery
 
    
-   
-   
+.. rubric:: Modules
 
-   
-   
-   
+.. autosummary::
+   :toctree:
+   :recursive:
 
-   
-   
-   .. rubric:: Classes
-
-   .. autosummary::
-   
-      Extract
-      ExtractArtifact
-      Load
-      Query
-   
-   
-
-   
-   
-   
-
-
-
+   extract
+   extract_artifact
+   load
+   query
