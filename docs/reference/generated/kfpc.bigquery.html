@@ -1,26 +1,25 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>kfpc.bigquery &mdash; kfpc  documentation</title>
-      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
   
-        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script src="../../_static/sphinx_highlight.js"></script>
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="kfpc.version" href="kfpc.version.html" />
+    <link rel="next" title="kfpc.bigquery.extract" href="kfpc.bigquery.extract.html" />
     <link rel="prev" title="kfpc" href="kfpc.html" /> 
 </head>
 
@@ -29,11 +28,15 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="../../index.html" class="icon icon-home"> kfpc
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            kfpc
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -44,22 +47,10 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="kfpc.html">kfpc</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">kfpc.bigquery</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#kfpc.bigquery.Extract"><code class="docutils literal notranslate"><span class="pre">Extract</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#kfpc.bigquery.Extract.task"><code class="docutils literal notranslate"><span class="pre">Extract.task()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#kfpc.bigquery.ExtractArtifact"><code class="docutils literal notranslate"><span class="pre">ExtractArtifact</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#kfpc.bigquery.ExtractArtifact.task"><code class="docutils literal notranslate"><span class="pre">ExtractArtifact.task()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#kfpc.bigquery.Load"><code class="docutils literal notranslate"><span class="pre">Load</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#kfpc.bigquery.Load.task"><code class="docutils literal notranslate"><span class="pre">Load.task()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#kfpc.bigquery.Query"><code class="docutils literal notranslate"><span class="pre">Query</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#kfpc.bigquery.Query.task"><code class="docutils literal notranslate"><span class="pre">Query.task()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="kfpc.bigquery.extract.html">kfpc.bigquery.extract</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kfpc.bigquery.extract_artifact.html">kfpc.bigquery.extract_artifact</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kfpc.bigquery.load.html">kfpc.bigquery.load</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kfpc.bigquery.query.html">kfpc.bigquery.query</a></li>
 </ul>
 </li>
 </ul>
@@ -79,10 +70,10 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-          <li><a href="../index.html">API Reference</a> &raquo;</li>
-          <li><a href="kfpc.html">kfpc</a> &raquo;</li>
-      <li>kfpc.bigquery</li>
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="kfpc.html">kfpc</a></li>
+      <li class="breadcrumb-item active">kfpc.bigquery</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/reference/generated/kfpc.bigquery.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -93,155 +84,24 @@
            <div itemprop="articleBody">
              
   <section id="module-kfpc.bigquery">
-<span id="kfpc-bigquery"></span><h1>kfpc.bigquery<a class="headerlink" href="#module-kfpc.bigquery" title="Permalink to this heading"></a></h1>
-<p class="rubric">Classes</p>
+<span id="kfpc-bigquery"></span><h1>kfpc.bigquery<a class="headerlink" href="#module-kfpc.bigquery" title="Link to this heading"></a></h1>
+<p class="rubric">Modules</p>
 <table class="autosummary longtable docutils align-default">
-<colgroup>
-<col style="width: 10%" />
-<col style="width: 90%" />
-</colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#kfpc.bigquery.Extract" title="kfpc.bigquery.Extract"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Extract</span></code></a>([name])</p></td>
-<td><p>Kubeflow Pipelines component for BigQuery extract job.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="kfpc.bigquery.extract.html#module-kfpc.bigquery.extract" title="kfpc.bigquery.extract"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extract</span></code></a></p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#kfpc.bigquery.ExtractArtifact" title="kfpc.bigquery.ExtractArtifact"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ExtractArtifact</span></code></a>(name)</p></td>
-<td><p>Kubeflow Pipelines component for BigQuery extract job.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="kfpc.bigquery.extract_artifact.html#module-kfpc.bigquery.extract_artifact" title="kfpc.bigquery.extract_artifact"><code class="xref py py-obj docutils literal notranslate"><span class="pre">extract_artifact</span></code></a></p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#kfpc.bigquery.Load" title="kfpc.bigquery.Load"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Load</span></code></a>(name)</p></td>
-<td><p>Kubeflow Pipelines component for BigQuery load job.</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="kfpc.bigquery.load.html#module-kfpc.bigquery.load" title="kfpc.bigquery.load"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load</span></code></a></p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#kfpc.bigquery.Query" title="kfpc.bigquery.Query"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Query</span></code></a>(name)</p></td>
-<td><p>Kubeflow Pipelines component for BigQuery query job.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="kfpc.bigquery.query.html#module-kfpc.bigquery.query" title="kfpc.bigquery.query"><code class="xref py py-obj docutils literal notranslate"><span class="pre">query</span></code></a></p></td>
+<td><p></p></td>
 </tr>
 </tbody>
 </table>
-<dl class="py class">
-<dt class="sig sig-object py" id="kfpc.bigquery.Extract">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kfpc.bigquery.</span></span><span class="sig-name descname"><span class="pre">Extract</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'extract'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#kfpc.bigquery.Extract" title="Permalink to this definition"></a></dt>
-<dd><p>Kubeflow Pipelines component for BigQuery extract job.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>name</strong> – Name of the component.</p>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="kfpc.bigquery.Extract.task">
-<span class="sig-name descname"><span class="pre">task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_project</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">PipelineParameterChannel</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">PipelineParameterChannel</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_project_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_dataset_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_table_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#kfpc.bigquery.Extract.task" title="Permalink to this definition"></a></dt>
-<dd><p>Generate Kubeflow Pipelines task to submit BigQuery extract job.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>job_project</strong> – Google Cloud Platform project ID to execute query job.</p></li>
-<li><p><strong>location</strong> – Location of BigQuery sources.</p></li>
-<li><p><strong>source_project_id</strong> – Google Cloud Platform project ID of the source table.</p></li>
-<li><p><strong>source_dataset_id</strong> – BigQuery dataset ID of the source table.</p></li>
-<li><p><strong>source_table_id</strong> – BigQuery table ID of the source table.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>self</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="kfpc.bigquery.ExtractArtifact">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kfpc.bigquery.</span></span><span class="sig-name descname"><span class="pre">ExtractArtifact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#kfpc.bigquery.ExtractArtifact" title="Permalink to this definition"></a></dt>
-<dd><p>Kubeflow Pipelines component for BigQuery extract job.
-It’s used when source table is a <code class="docutils literal notranslate"><span class="pre">google.BQTable</span></code> artifact generated by <code class="docutils literal notranslate"><span class="pre">kfpc.bigquery.Query</span></code>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>name</strong> – Name of the component.</p>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="kfpc.bigquery.ExtractArtifact.task">
-<span class="sig-name descname"><span class="pre">task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_project</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">PipelineParameterChannel</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_table_artifact</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">PipelineArtifactChannel</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">PipelineParameterChannel</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'US'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#kfpc.bigquery.ExtractArtifact.task" title="Permalink to this definition"></a></dt>
-<dd><p>Generate Kubeflow Pipelines task to submit BigQuery extract job.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>job_project</strong> – Google Cloud Platform project ID to execute query job.</p></li>
-<li><p><strong>source_table_artifact</strong> – <cite>google.BQTable</cite> artifact generated by other tasks.
-Typically, <code class="docutils literal notranslate"><span class="pre">kfpc.bigquery.Query.destination_table</span></code> is used.</p></li>
-<li><p><strong>location</strong> – Location of BigQuery sources.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>self</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="kfpc.bigquery.Load">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kfpc.bigquery.</span></span><span class="sig-name descname"><span class="pre">Load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#kfpc.bigquery.Load" title="Permalink to this definition"></a></dt>
-<dd><p>Kubeflow Pipelines component for BigQuery load job.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>name</strong> – Name of the component.</p>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="kfpc.bigquery.Load.task">
-<span class="sig-name descname"><span class="pre">task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_project</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">PipelineParameterChannel</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination_project</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">PipelineParameterChannel</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination_dataset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">PipelineParameterChannel</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination_table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">PipelineParameterChannel</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schema</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">PipelineParameterChannel</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_artifact</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PipelineArtifactChannel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_uri_suffix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'US'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#kfpc.bigquery.Load.task" title="Permalink to this definition"></a></dt>
-<dd><p>Generate a Kubeflow Pipelines task to execute BigQuery load job.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>job_project</strong> – Google Cloud Platform project ID to execute load job.</p></li>
-<li><p><strong>source_artifact</strong> – </p></li>
-<li><p><strong>destination_project</strong> – Google Cloud Platform project ID of the destination table.</p></li>
-<li><p><strong>destination_dataset</strong> – BigQuery dataset ID of the destination table.</p></li>
-<li><p><strong>destination_table</strong> – BigQuery table ID of the destination table.</p></li>
-<li><p><strong>schema</strong> – BigQuery table schema of the destination table.</p></li>
-<li><p><strong>source_uri_suffix</strong> – Load files matched to <code class="docutils literal notranslate"><span class="pre">os.path.join(source_uri,</span> <span class="pre">source_uri_suffix)</span></code>.
-<code class="docutils literal notranslate"><span class="pre">source_uri</span></code> is Kubeflow Pipelines placeholder <code class="docutils literal notranslate"><span class="pre">inputPath</span></code> of <code class="docutils literal notranslate"><span class="pre">source_artifact</span></code>.</p></li>
-<li><p><strong>location</strong> – Location of BigQuery destination table.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="kfpc.bigquery.Query">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kfpc.bigquery.</span></span><span class="sig-name descname"><span class="pre">Query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#kfpc.bigquery.Query" title="Permalink to this definition"></a></dt>
-<dd><p>Kubeflow Pipelines component for BigQuery query job.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>name</strong> – Name of the component.</p>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="kfpc.bigquery.Query.task">
-<span class="sig-name descname"><span class="pre">task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">PipelineParameterChannel</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_project</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">PipelineParameterChannel</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination_project</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">PipelineParameterChannel</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination_dataset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">PipelineParameterChannel</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination_table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">PipelineParameterChannel</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">PipelineParameterChannel</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'US'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depend_on</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">PipelineArtifactChannel</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#kfpc.bigquery.Query.task" title="Permalink to this definition"></a></dt>
-<dd><p>Generate a Kubeflow Pipelines task.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>query</strong> – SQL string executed on BigQuery.</p></li>
-<li><p><strong>job_project</strong> – Google Cloud Platform project ID to execute query job.</p></li>
-<li><p><strong>location</strong> – Location of BigQuery sources.</p></li>
-<li><p><strong>destination_project</strong> – Google Cloud Platform project ID of the destination table.</p></li>
-<li><p><strong>destination_dataset</strong> – BigQuery dataset ID of the destination table.</p></li>
-<li><p><strong>destination_table</strong> – BigQuery table ID of the destination table.</p></li>
-<li><p><strong>depend_on</strong> – Required table artifacts to execute this query.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>self</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
 </section>
 
 
@@ -249,7 +109,7 @@ Typically, <code class="docutils literal notranslate"><span class="pre">kfpc.big
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="kfpc.html" class="btn btn-neutral float-left" title="kfpc" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="kfpc.version.html" class="btn btn-neutral float-right" title="kfpc.version" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="kfpc.bigquery.extract.html" class="btn btn-neutral float-right" title="kfpc.bigquery.extract" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

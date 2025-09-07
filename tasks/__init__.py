@@ -1,5 +1,7 @@
 """Invoke tasks."""
 
+from __future__ import annotations
+
 import os
 from pathlib import Path
 
@@ -21,15 +23,17 @@ def get_version() -> str:
 
 @invoke.task
 def docker_build(c: invoke.Context) -> None:
-    """Build Docker image."""
+    """Build Docker image in local environment."""
     os.environ["VERSION"] = get_version()
     c.run("docker compose build")
 
 
-@invoke.task(pre=[docker_build])
-def docker_push(c: invoke.Context) -> None:
-    """Build and push Docker image."""
-    c.run("docker compose push")
+@invoke.task
+def docker_cloudbuild(c: invoke.Context, docker_tag: str | None = None) -> None:
+    """Build and push Docker image via Cloud Build."""
+    if docker_tag is None:
+        docker_tag = get_version()
+    c.run(f"gcloud builds submit --project sfujiwara --config cloudbuild.yaml --substitutions _DOCKER_TAG={docker_tag}")
 
 
 @invoke.task

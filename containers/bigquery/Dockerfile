@@ -1,6 +1,6 @@
-FROM python:3.8-slim
+FROM python:3.13-slim
 
-RUN pip install pip==22.1.2
+RUN pip install pip==25.1.1
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 

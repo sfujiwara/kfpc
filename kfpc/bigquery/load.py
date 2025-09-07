@@ -91,7 +91,7 @@ class Load:
             ],
             "implementation": {
                 "container": {
-                    "image": f"gcr.io/sfujiwara/kfpc/bigquery:{get_version()}",
+                    "image": f"us-central1-docker.pkg.dev/sfujiwara/kfpc/bigquery:{get_version()}",
                     "command": ["inv", "load"],
                     "args": [
                         "--job-project", {"inputValue": "job_project"},
