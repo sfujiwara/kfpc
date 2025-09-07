@@ -36,7 +36,7 @@ def pipeline_fn(project: str) -> None:
         ],
     )
 
-    extract_task = kfpc.bigquery.ExtractArtifact(name="extract").task(
+    extract_task = kfpc.bigquery.ExtractArtifact(name="extract-artifact").task(
         job_project=project,
         source_table_artifact=query_select3_task.destination_table,
     )
