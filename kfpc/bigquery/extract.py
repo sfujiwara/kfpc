@@ -84,7 +84,7 @@ class Extract:
             ],
             "implementation": {
                 "container": {
-                    "image": f"gcr.io/sfujiwara/kfpc/bigquery:{get_version()}",
+                    "image": f"us-central1-docker.pkg.dev/sfujiwara/kfpc/bigquery:{get_version()}",
                     "command": ["inv", "extract"],
                     "args": [
                         "--job-project", {"inputValue": "job_project"},
