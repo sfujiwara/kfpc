@@ -21,7 +21,6 @@ pip install git+https://github.com/sfujiwara/kfpc@${RELEASE_TAG}
 
 ```python
 import kfp
-from kfp.v2 import compiler
 from google.cloud import aiplatform
 import kfpc
 
@@ -39,7 +38,7 @@ def pipeline_fn(project: str):
 
 project = "<Your GCP Project>"
 
-compiler.Compiler().compile(pipeline_func=pipeline_fn, package_path="pipeline.json")
+kfp.compiler.Compiler().compile(pipeline_func=pipeline_fn, package_path="pipeline.json")
 job = aiplatform.PipelineJob(
     project=project,
     display_name="simple",
