@@ -5,9 +5,9 @@ from __future__ import annotations
 from pathlib import Path
 
 import invoke
+import kfp
 import toml
 from google.cloud import aiplatform
-from kfp.v2 import compiler
 
 from .pipeline import pipeline_fn
 
@@ -29,9 +29,10 @@ def docker_build(c: invoke.Context) -> None:
 @invoke.task
 def docker_cloudbuild(c: invoke.Context, docker_tag: str | None = None) -> None:
     """Build and push Docker image via Cloud Build."""
+    project = c["env"]["project"]
     if docker_tag is None:
         docker_tag = get_version()
-    c.run(f"gcloud builds submit --project sfujiwara --config cloudbuild.yaml --substitutions _DOCKER_TAG={docker_tag}")
+    c.run(f"gcloud builds submit --project {project} --config cloudbuild.yaml --substitutions _DOCKER_TAG={docker_tag}")
 
 
 @invoke.task
@@ -44,7 +45,7 @@ def docs_build(c: invoke.Context) -> None:
 @invoke.task
 def pipeline_run(c: invoke.Context, project: str) -> None:  # noqa: ARG001
     """Run example pipeline."""
-    compiler.Compiler().compile(pipeline_func=pipeline_fn, package_path="pipeline.yaml")
+    kfp.compiler.Compiler().compile(pipeline_func=pipeline_fn, package_path="pipeline.yaml")
     job = aiplatform.PipelineJob(
         project=project,
         display_name="simple",
