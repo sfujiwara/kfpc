@@ -1,0 +1,5 @@
+debug: false
+run:
+  echo: true
+env:
+  project: sfujiwara

@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import os
 from pathlib import Path
 
 import invoke
@@ -24,8 +23,7 @@ def get_version() -> str:
 @invoke.task
 def docker_build(c: invoke.Context) -> None:
     """Build Docker image in local environment."""
-    os.environ["VERSION"] = get_version()
-    c.run("docker compose build")
+    c.run("docker build -t kfpc-bigquery ./containers/bigquery")
 
 
 @invoke.task
@@ -41,6 +39,7 @@ def docs_build(c: invoke.Context) -> None:
     """Generate documentations using Sphinx."""
     with c.cd("sphinx"):
         c.run("make html")
+
 
 @invoke.task
 def pipeline_run(c: invoke.Context, project: str) -> None:  # noqa: ARG001
