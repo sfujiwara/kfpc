@@ -13,4 +13,3 @@
    extract
    load
    query
-   table_importer
