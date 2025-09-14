@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "kfpc"
-version = "0.3.0"
+version = "0.4.0"
 description = "Components for Kubeflow Pipelines and Vertex Pipelines"
 license = "MIT"
 authors = ["sfujiwara <shuhei.fujiwara@gmail.com>"]
