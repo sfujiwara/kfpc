@@ -1,4 +1,4 @@
-kfpc.bigquery
+﻿kfpc.bigquery
 =============
 
 .. automodule:: kfpc.bigquery
@@ -11,6 +11,6 @@ kfpc.bigquery
    :recursive:
 
    extract
-   extract_artifact
    load
    query
+   table_importer

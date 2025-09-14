@@ -18,9 +18,7 @@
       <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="kfpc.bigquery.load" href="kfpc.bigquery.load.html" />
-    <link rel="prev" title="kfpc.bigquery.extract" href="kfpc.bigquery.extract.html" /> 
+    <link rel="search" title="Search" href="../../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -43,22 +41,8 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="../index.html">API Reference</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="kfpc.html">kfpc</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="kfpc.bigquery.html">kfpc.bigquery</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="kfpc.bigquery.extract.html">kfpc.bigquery.extract</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">kfpc.bigquery.extract_artifact</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#kfpc.bigquery.extract_artifact.ExtractArtifact"><code class="docutils literal notranslate"><span class="pre">ExtractArtifact</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="#kfpc.bigquery.extract_artifact.ExtractArtifactTask"><code class="docutils literal notranslate"><span class="pre">ExtractArtifactTask</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="kfpc.bigquery.load.html">kfpc.bigquery.load</a></li>
-<li class="toctree-l3"><a class="reference internal" href="kfpc.bigquery.query.html">kfpc.bigquery.query</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">API Reference</a></li>
 </ul>
 
         </div>
@@ -75,9 +59,6 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
-          <li class="breadcrumb-item"><a href="../index.html">API Reference</a></li>
-          <li class="breadcrumb-item"><a href="kfpc.html">kfpc</a></li>
-          <li class="breadcrumb-item"><a href="kfpc.bigquery.html">kfpc.bigquery</a></li>
       <li class="breadcrumb-item active">kfpc.bigquery.extract_artifact</li>
       <li class="wy-breadcrumbs-aside">
             <a href="../../_sources/reference/generated/kfpc.bigquery.extract_artifact.rst.txt" rel="nofollow"> View page source</a>
@@ -88,71 +69,14 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="module-kfpc.bigquery.extract_artifact">
-<span id="kfpc-bigquery-extract-artifact"></span><h1>kfpc.bigquery.extract_artifact<a class="headerlink" href="#module-kfpc.bigquery.extract_artifact" title="Link to this heading"></a></h1>
-<p class="rubric">Classes</p>
-<table class="autosummary longtable docutils align-default">
-<tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#kfpc.bigquery.extract_artifact.ExtractArtifact" title="kfpc.bigquery.extract_artifact.ExtractArtifact"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ExtractArtifact</span></code></a>(name)</p></td>
-<td><p>Kubeflow Pipelines component for BigQuery extract job.</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#kfpc.bigquery.extract_artifact.ExtractArtifactTask" title="kfpc.bigquery.extract_artifact.ExtractArtifactTask"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ExtractArtifactTask</span></code></a>(task)</p></td>
-<td><p>Kubeflow Pipelines task for BigQuery extract job.</p></td>
-</tr>
-</tbody>
-</table>
-<dl class="py class">
-<dt class="sig sig-object py" id="kfpc.bigquery.extract_artifact.ExtractArtifact">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kfpc.bigquery.extract_artifact.</span></span><span class="sig-name descname"><span class="pre">ExtractArtifact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#kfpc.bigquery.extract_artifact.ExtractArtifact" title="Link to this definition"></a></dt>
-<dd><p>Kubeflow Pipelines component for BigQuery extract job.</p>
-<p>It’s used when source table is a <code class="docutils literal notranslate"><span class="pre">google.BQTable</span></code> artifact generated by <code class="docutils literal notranslate"><span class="pre">kfpc.bigquery.Query</span></code>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>name</strong> – Name of the component.</p>
-</dd>
-</dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="kfpc.bigquery.extract_artifact.ExtractArtifact.task">
-<span class="sig-name descname"><span class="pre">task</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_project</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PipelineParameterChannel</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_table_artifact</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PipelineArtifactChannel</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">location</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PipelineParameterChannel</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'US'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#kfpc.bigquery.extract_artifact.ExtractArtifactTask" title="kfpc.bigquery.extract_artifact.ExtractArtifactTask"><span class="pre">ExtractArtifactTask</span></a></span></span><a class="headerlink" href="#kfpc.bigquery.extract_artifact.ExtractArtifact.task" title="Link to this definition"></a></dt>
-<dd><p>Generate Kubeflow Pipelines task to submit BigQuery extract job.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>job_project</strong> – Google Cloud Platform project ID to execute query job.</p></li>
-<li><p><strong>source_table_artifact</strong> – <cite>google.BQTable</cite> artifact generated by other tasks.
-Typically, <code class="docutils literal notranslate"><span class="pre">kfpc.bigquery.Query.destination_table</span></code> is used.</p></li>
-<li><p><strong>location</strong> – Location of BigQuery sources.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>self</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="kfpc.bigquery.extract_artifact.ExtractArtifactTask">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">kfpc.bigquery.extract_artifact.</span></span><span class="sig-name descname"><span class="pre">ExtractArtifactTask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PipelineTask</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#kfpc.bigquery.extract_artifact.ExtractArtifactTask" title="Link to this definition"></a></dt>
-<dd><p>Kubeflow Pipelines task for BigQuery extract job.</p>
-<dl class="py property">
-<dt class="sig sig-object py" id="kfpc.bigquery.extract_artifact.ExtractArtifactTask.output_files">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_files</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">PipelineArtifactChannel</span></em><a class="headerlink" href="#kfpc.bigquery.extract_artifact.ExtractArtifactTask.output_files" title="Link to this definition"></a></dt>
-<dd><p>Return output_files artifact.</p>
-</dd></dl>
-
-</dd></dl>
-
+  <section id="kfpc-bigquery-extract-artifact">
+<h1>kfpc.bigquery.extract_artifact<a class="headerlink" href="#kfpc-bigquery-extract-artifact" title="Link to this heading"></a></h1>
 </section>
 
 
            </div>
           </div>
-          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="kfpc.bigquery.extract.html" class="btn btn-neutral float-left" title="kfpc.bigquery.extract" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="kfpc.bigquery.load.html" class="btn btn-neutral float-right" title="kfpc.bigquery.load" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
-    </div>
+          <footer>
 
   <hr/>
 
