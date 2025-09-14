@@ -1,6 +1,0 @@
-version: "3"
-
-services:
-  bigquery:
-    image: "gcr.io/sfujiwara/kfpc/bigquery:${VERSION:-latest}"
-    build: containers/bigquery

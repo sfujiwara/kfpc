@@ -157,31 +157,6 @@ def query(
 def extract(
     c: invoke.Context,  # noqa: ARG001
     job_project: str,
-    source_project: str,
-    source_dataset: str,
-    source_table: str,
-    destination_uri: str,
-    location: str = "US",
-    executor_input: str = '{"outputs": {"outputFile": "tmp/executor_input.json"}}',
-) -> None:
-    """Execute BigQuery extract job."""
-    client = bigquery.Client()
-    job = client.extract_table(
-        project=job_project,
-        source=f"{source_project}.{source_dataset}.{source_table}",
-        destination_uris=f"{destination_uri.rstrip('/')}/data-*.jsonl",
-        location=location,
-        job_config=bigquery.ExtractJobConfig(
-            destination_format=bigquery.DestinationFormat.NEWLINE_DELIMITED_JSON,
-        ),
-    )
-    job.result()
-
-
-@invoke.task
-def extract_artifact(
-    c: invoke.Context,  # noqa: ARG001
-    job_project: str,
     table_uri: str,
     destination_uri: str,
     location: str = "US",
