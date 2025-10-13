@@ -111,7 +111,7 @@ class Load:
         }
 
         component = load_component_from_text(yaml.dump(component_dict))
-        return component(
+        task = component(
             job_project=job_project,
             source_artifact=source_artifact,
             destination_project=destination_project,
@@ -121,3 +121,5 @@ class Load:
             schema=schema,
             source_uri_suffix=source_uri_suffix,
         )
+
+        return LoadTask(task=task)
